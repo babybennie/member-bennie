@@ -1,0 +1,2353 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin | Bennie Choco</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",
+  "Noto Sans Thai",Tahoma,sans-serif;
+  background:#fff5f8;
+  color:#684f5a;
+}
+
+body{
+  padding:20px 14px 40px;
+}
+
+button,
+input,
+select{
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.page{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.login-screen{
+  min-height:calc(100vh - 60px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.login-card{
+  width:100%;
+  max-width:400px;
+  background:#fff;
+  border:1px solid #f1dce4;
+  border-radius:28px;
+  padding:30px 22px;
+  box-shadow:0 15px 45px rgba(190,121,146,.13);
+  text-align:center;
+}
+
+.login-logo{
+  width:82px;
+  height:82px;
+  border-radius:50%;
+  background:#fff8fa;
+  border:1px solid #efdce4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 14px;
+  font-size:32px;
+  box-shadow:0 8px 22px rgba(190,121,146,.10);
+}
+
+.login-brand{
+  font-size:27px;
+  font-weight:800;
+  color:#c87591;
+}
+
+.login-sub{
+  margin-top:5px;
+  margin-bottom:24px;
+  font-size:13px;
+  color:#a98594;
+}
+
+.login-label{
+  display:block;
+  text-align:left;
+  margin:0 0 7px;
+  font-size:13px;
+  font-weight:700;
+  color:#765966;
+}
+
+.login-field{
+  margin-bottom:14px;
+}
+
+.login-input{
+  width:100%;
+  height:48px;
+  border:1px solid #ead6df;
+  border-radius:13px;
+  padding:0 14px;
+  outline:none;
+  background:#fffafb;
+  color:#684f5a;
+  font-size:15px;
+}
+
+.login-input:focus{
+  border-color:#dda2b8;
+  box-shadow:0 0 0 3px rgba(221,162,184,.14);
+}
+
+.login-btn{
+  width:100%;
+  height:52px;
+  border:0;
+  border-radius:15px;
+  background:linear-gradient(135deg,#df91ad,#c97594);
+  color:#fff;
+  font-size:16px;
+  font-weight:800;
+  margin-top:6px;
+  box-shadow:0 7px 18px rgba(201,117,148,.22);
+}
+
+.login-btn:disabled{
+  opacity:.55;
+}
+
+.login-error{
+  display:none;
+  margin-top:13px;
+  padding:11px 13px;
+  border-radius:12px;
+  background:#fff0f3;
+  border:1px solid #f1cbd7;
+  color:#bd607d;
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* =========================================================
+   ADMIN APP
+========================================================= */
+
+.admin-app{
+  display:none;
+}
+
+.topbar{
+  background:#fff;
+  border:1px solid #f1dce4;
+  border-radius:22px;
+  padding:17px 18px;
+  box-shadow:0 8px 28px rgba(190,121,146,.10);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:18px;
+}
+
+.topbar-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.admin-logo{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:#fff4f7;
+  border:1px solid #f0dbe3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+}
+
+.admin-title{
+  font-size:21px;
+  font-weight:800;
+  color:#755361;
+}
+
+.admin-subtitle{
+  font-size:12px;
+  color:#a78c98;
+  margin-top:2px;
+}
+
+.logout-btn{
+  border:1px solid #e5bdcb;
+  background:#fff;
+  color:#b76582;
+  height:40px;
+  padding:0 14px;
+  border-radius:11px;
+  font-weight:800;
+}
+
+.logout-btn:active{
+  background:#fff2f6;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.stat-card{
+  background:#fff;
+  border:1px solid #f1dce4;
+  border-radius:18px;
+  padding:17px 14px;
+  box-shadow:0 7px 22px rgba(190,121,146,.08);
+}
+
+.stat-label{
+  font-size:12px;
+  color:#a38a96;
+}
+
+.stat-number{
+  font-size:27px;
+  font-weight:800;
+  color:#c87591;
+  margin-top:3px;
+}
+
+.stat-card.active .stat-number{
+  color:#c56e8b;
+}
+
+.stat-card.inactive .stat-number{
+  color:#a9939d;
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+  background:#fff;
+  border:1px solid #f1dce4;
+  border-radius:19px;
+  padding:13px;
+  box-shadow:0 7px 22px rgba(190,121,146,.07);
+  margin-bottom:16px;
+}
+
+.search-box{
+  width:100%;
+  height:46px;
+  border:1px solid #ead6df;
+  border-radius:12px;
+  background:#fffafb;
+  padding:0 14px;
+  outline:none;
+  font-size:14px;
+  color:#684f5a;
+}
+
+.search-box:focus{
+  border-color:#dda2b8;
+  box-shadow:0 0 0 3px rgba(221,162,184,.12);
+}
+
+/* =========================================================
+   AGENT LIST
+========================================================= */
+
+.agent-list{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.empty{
+  background:#fff;
+  border:1px solid #f1dce4;
+  border-radius:20px;
+  padding:35px 20px;
+  text-align:center;
+  color:#a48d98;
+  grid-column:1/-1;
+}
+
+.agent-card{
+  background:#fff;
+  border:1px solid #f1dce4;
+  border-radius:20px;
+  padding:17px;
+  box-shadow:0 8px 25px rgba(190,121,146,.08);
+}
+
+.agent-top{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.agent-photo{
+  width:68px;
+  height:68px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #fff;
+  box-shadow:0 4px 14px rgba(100,55,75,.12);
+  background:#fff1f5;
+}
+
+.agent-main{
+  min-width:0;
+  flex:1;
+}
+
+.agent-name{
+  font-size:17px;
+  font-weight:800;
+  color:#745360;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.agent-code{
+  display:inline-block;
+  margin-top:5px;
+  padding:4px 9px;
+  border-radius:999px;
+  background:#ffe9f0;
+  color:#b75e7c;
+  font-size:12px;
+  font-weight:800;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-top:7px;
+  font-size:11px;
+  font-weight:800;
+}
+
+.status.active{
+  color:#6c9a7a;
+}
+
+.status.inactive{
+  color:#a18d96;
+}
+
+.status-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#8dc09b;
+}
+
+.status.inactive .status-dot{
+  background:#b8aab0;
+}
+
+.agent-details{
+  margin-top:15px;
+  padding-top:12px;
+  border-top:1px solid #f0e0e6;
+}
+
+.detail-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:4px 0;
+  font-size:12px;
+}
+
+.detail-label{
+  color:#a28b96;
+}
+
+.detail-value{
+  color:#745360;
+  font-weight:700;
+  text-align:right;
+  max-width:65%;
+  word-break:break-word;
+}
+
+.agent-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:14px;
+}
+
+.action-btn{
+  height:40px;
+  border-radius:11px;
+  border:1px solid #e7cbd5;
+  background:#fff;
+  color:#9a6376;
+  font-weight:800;
+  font-size:12px;
+}
+
+.action-btn.edit{
+  background:#fff0f4;
+  border-color:#edc5d2;
+  color:#bd6682;
+}
+
+.action-btn.toggle{
+  background:#fff8fa;
+}
+
+.action-btn.delete{
+  background:#fff3f4;
+  border-color:#f0c7cf;
+  color:#c15f72;
+}
+
+.action-btn:active{
+  transform:scale(.98);
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(67,43,53,.48);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  z-index:1000;
+  backdrop-filter:blur(4px);
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-card{
+  width:100%;
+  max-width:460px;
+  max-height:90vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:23px;
+  padding:22px;
+  box-shadow:0 20px 60px rgba(70,40,55,.22);
+}
+
+.modal-title{
+  font-size:20px;
+  font-weight:800;
+  color:#745360;
+  margin-bottom:17px;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-label{
+  display:block;
+  margin-bottom:6px;
+  font-size:13px;
+  font-weight:700;
+  color:#765966;
+}
+
+.form-input{
+  width:100%;
+  height:45px;
+  border:1px solid #ead6df;
+  border-radius:11px;
+  background:#fffafb;
+  padding:0 12px;
+  outline:none;
+  font-size:14px;
+  color:#684f5a;
+}
+
+.form-input:focus{
+  border-color:#dda2b8;
+  box-shadow:0 0 0 3px rgba(221,162,184,.12);
+}
+
+.modal-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:18px;
+}
+
+.modal-btn{
+  height:46px;
+  border-radius:12px;
+  font-weight:800;
+  border:1px solid #e4c7d1;
+  background:#fff;
+  color:#916175;
+}
+
+.modal-btn.save{
+  border:0;
+  background:linear-gradient(135deg,#df91ad,#c97594);
+  color:#fff;
+}
+
+.modal-btn.cancel{
+  background:#fff7f9;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading{
+  position:fixed;
+  inset:0;
+  background:rgba(255,248,251,.72);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:3000;
+  backdrop-filter:blur(3px);
+}
+
+.loading.show{
+  display:flex;
+}
+
+.loading-box{
+  background:#fff;
+  border-radius:18px;
+  padding:22px 28px;
+  text-align:center;
+  box-shadow:0 12px 35px rgba(90,50,70,.14);
+  color:#765462;
+  font-weight:700;
+}
+
+.spinner{
+  width:30px;
+  height:30px;
+  border:3px solid #f0dce4;
+  border-top-color:#cf7896;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+  margin:0 auto 10px;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:700px){
+
+  .agent-list{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:520px){
+
+  body{
+    padding:14px 10px 30px;
+  }
+
+  .topbar{
+    padding:14px;
+  }
+
+  .admin-title{
+    font-size:18px;
+  }
+
+  .logout-btn{
+    padding:0 10px;
+    font-size:12px;
+  }
+
+  .stats{
+    gap:8px;
+  }
+
+  .stat-card{
+    padding:14px 10px;
+  }
+
+  .stat-number{
+    font-size:23px;
+  }
+
+}
+
+@media(max-width:380px){
+
+  .topbar-left{
+    gap:8px;
+  }
+
+  .admin-logo{
+    width:45px;
+    height:45px;
+    font-size:20px;
+  }
+
+  .admin-title{
+    font-size:16px;
+  }
+
+  .admin-subtitle{
+    font-size:10px;
+  }
+
+  .logout-btn{
+    height:36px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- =====================================================
+       LOGIN
+  ====================================================== -->
+
+  <section id="loginScreen" class="login-screen">
+
+    <div class="login-card">
+
+      <div class="login-logo">
+        🍫
+      </div>
+
+      <div class="login-brand">
+        Bennie Choco
+      </div>
+
+      <div class="login-sub">
+        ระบบจัดการตัวแทนจำหน่าย
+      </div>
+
+      <div class="login-field">
+
+        <label class="login-label">
+          อีเมลแอดมิน
+        </label>
+
+        <input
+          id="loginEmail"
+          class="login-input"
+          type="email"
+          autocomplete="username"
+          placeholder="อีเมล"
+        >
+
+      </div>
+
+      <div class="login-field">
+
+        <label class="login-label">
+          รหัสผ่าน
+        </label>
+
+        <input
+          id="loginPassword"
+          class="login-input"
+          type="password"
+          autocomplete="current-password"
+          placeholder="รหัสผ่าน"
+        >
+
+      </div>
+
+      <button
+        id="loginBtn"
+        class="login-btn"
+        type="button"
+      >
+        เข้าสู่ระบบแอดมิน
+      </button>
+
+      <div
+        id="loginError"
+        class="login-error"
+      ></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       ADMIN APP
+  ====================================================== -->
+
+  <section id="adminApp" class="admin-app">
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+      <div class="topbar-left">
+
+        <div class="admin-logo">
+          🍫
+        </div>
+
+        <div>
+
+          <div class="admin-title">
+            Bennie Choco Admin
+          </div>
+
+          <div class="admin-subtitle">
+            จัดการตัวแทนจำหน่าย
+          </div>
+
+        </div>
+
+      </div>
+
+      <button
+        id="logoutBtn"
+        class="logout-btn"
+        type="button"
+      >
+        ออกจากระบบ
+      </button>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          ตัวแทนทั้งหมด
+        </div>
+
+        <div
+          id="totalCount"
+          class="stat-number"
+        >
+          0
+        </div>
+
+      </div>
+
+      <div class="stat-card active">
+
+        <div class="stat-label">
+          Active
+        </div>
+
+        <div
+          id="activeCount"
+          class="stat-number"
+        >
+          0
+        </div>
+
+      </div>
+
+      <div class="stat-card inactive">
+
+        <div class="stat-label">
+          Inactive
+        </div>
+
+        <div
+          id="inactiveCount"
+          class="stat-number"
+        >
+          0
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="toolbar">
+
+      <input
+        id="searchInput"
+        class="search-box"
+        type="search"
+        placeholder="🔎 ค้นหาชื่อ หรือรหัสตัวแทน..."
+      >
+
+    </div>
+
+
+    <!-- LIST -->
+
+    <div
+      id="agentList"
+      class="agent-list"
+    ></div>
+
+  </section>
+
+</div>
+
+
+<!-- =======================================================
+     EDIT MODAL
+======================================================== -->
+
+<div
+  id="editModal"
+  class="modal"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-title">
+      แก้ไขข้อมูลตัวแทน
+    </div>
+
+    <input
+      id="editId"
+      type="hidden"
+    >
+
+    <div class="form-group">
+
+      <label class="form-label">
+        รหัสตัวแทน
+      </label>
+
+      <input
+        id="editCode"
+        class="form-input"
+        type="text"
+        disabled
+      >
+
+    </div>
+
+    <div class="form-group">
+
+      <label class="form-label">
+        ชื่อเล่น
+      </label>
+
+      <input
+        id="editNickname"
+        class="form-input"
+        type="text"
+        maxlength="50"
+      >
+
+    </div>
+
+    <div class="form-group">
+
+      <label class="form-label">
+        LINE
+      </label>
+
+      <input
+        id="editLine"
+        class="form-input"
+        type="text"
+        maxlength="100"
+      >
+
+    </div>
+
+    <div class="form-group">
+
+      <label class="form-label">
+        Facebook
+      </label>
+
+      <input
+        id="editFacebook"
+        class="form-input"
+        type="text"
+        maxlength="150"
+      >
+
+    </div>
+
+    <div class="form-group">
+
+      <label class="form-label">
+        Instagram
+      </label>
+
+      <input
+        id="editInstagram"
+        class="form-input"
+        type="text"
+        maxlength="100"
+      >
+
+    </div>
+
+    <div class="form-group">
+
+      <label class="form-label">
+        สถานะ
+      </label>
+
+      <select
+        id="editStatus"
+        class="form-input"
+      >
+
+        <option value="active">
+          Active
+        </option>
+
+        <option value="inactive">
+          Inactive
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="modal-buttons">
+
+      <button
+        id="cancelEditBtn"
+        class="modal-btn cancel"
+        type="button"
+      >
+        ยกเลิก
+      </button>
+
+      <button
+        id="saveEditBtn"
+        class="modal-btn save"
+        type="button"
+      >
+        บันทึก
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     LOADING
+======================================================== -->
+
+<div
+  id="loading"
+  class="loading"
+>
+
+  <div class="loading-box">
+
+    <div class="spinner"></div>
+
+    กำลังดำเนินการ...
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+  "https://jicsdzjcsxlrutdhurqd.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_IutojmB0Mm9JrpPoBNc2rg_y300UcFz";
+
+const supabaseClient =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const loginScreen =
+  document.getElementById("loginScreen");
+
+const adminApp =
+  document.getElementById("adminApp");
+
+const loginEmail =
+  document.getElementById("loginEmail");
+
+const loginPassword =
+  document.getElementById("loginPassword");
+
+const loginBtn =
+  document.getElementById("loginBtn");
+
+const loginError =
+  document.getElementById("loginError");
+
+const logoutBtn =
+  document.getElementById("logoutBtn");
+
+const totalCount =
+  document.getElementById("totalCount");
+
+const activeCount =
+  document.getElementById("activeCount");
+
+const inactiveCount =
+  document.getElementById("inactiveCount");
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const agentList =
+  document.getElementById("agentList");
+
+const editModal =
+  document.getElementById("editModal");
+
+const editId =
+  document.getElementById("editId");
+
+const editCode =
+  document.getElementById("editCode");
+
+const editNickname =
+  document.getElementById("editNickname");
+
+const editLine =
+  document.getElementById("editLine");
+
+const editFacebook =
+  document.getElementById("editFacebook");
+
+const editInstagram =
+  document.getElementById("editInstagram");
+
+const editStatus =
+  document.getElementById("editStatus");
+
+const cancelEditBtn =
+  document.getElementById("cancelEditBtn");
+
+const saveEditBtn =
+  document.getElementById("saveEditBtn");
+
+const loading =
+  document.getElementById("loading");
+
+
+/* =========================================================
+   DATA
+========================================================= */
+
+let agents = [];
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+loginBtn.addEventListener(
+  "click",
+  loginAdmin
+);
+
+loginPassword.addEventListener(
+  "keydown",
+  function(e){
+
+    if(e.key === "Enter"){
+      loginAdmin();
+    }
+
+  }
+);
+
+
+async function loginAdmin(){
+
+  const email =
+    loginEmail.value.trim();
+
+  const password =
+    loginPassword.value;
+
+  loginError.style.display = "none";
+
+  if(!email){
+
+    showLoginError(
+      "กรุณากรอกอีเมลแอดมิน"
+    );
+
+    return;
+  }
+
+  if(!password){
+
+    showLoginError(
+      "กรุณากรอกรหัสผ่าน"
+    );
+
+    return;
+  }
+
+  loginBtn.disabled = true;
+
+  loginBtn.textContent =
+    "กำลังเข้าสู่ระบบ...";
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.signInWithPassword({
+        email:email,
+        password:password
+      });
+
+    if(error){
+      throw error;
+    }
+
+    if(!data.user){
+
+      throw new Error(
+        "ไม่พบผู้ใช้งาน"
+      );
+
+    }
+
+    /* =========================================
+       CHECK ADMIN
+    ========================================= */
+
+    const {
+      data:adminData,
+      error:adminError
+    } =
+      await supabaseClient.rpc(
+        "is_admin"
+      );
+
+    if(adminError){
+
+      await supabaseClient.auth.signOut();
+
+      throw new Error(
+        "ไม่สามารถตรวจสอบสิทธิ์แอดมินได้"
+      );
+
+    }
+
+    if(!adminData){
+
+      await supabaseClient.auth.signOut();
+
+      throw new Error(
+        "บัญชีนี้ไม่มีสิทธิ์เข้าใช้งานระบบแอดมิน"
+      );
+
+    }
+
+    showAdmin();
+
+    await loadAgents();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    showLoginError(
+      error.message ||
+      "เข้าสู่ระบบไม่สำเร็จ"
+    );
+
+  }
+  finally{
+
+    loginBtn.disabled = false;
+
+    loginBtn.textContent =
+      "เข้าสู่ระบบแอดมิน";
+
+  }
+
+}
+
+
+/* =========================================================
+   SHOW LOGIN ERROR
+========================================================= */
+
+function showLoginError(message){
+
+  loginError.textContent =
+    message;
+
+  loginError.style.display =
+    "block";
+
+}
+
+
+/* =========================================================
+   SHOW ADMIN
+========================================================= */
+
+function showAdmin(){
+
+  loginScreen.style.display =
+    "none";
+
+  adminApp.style.display =
+    "block";
+
+}
+
+
+/* =========================================================
+   LOAD AGENTS
+========================================================= */
+
+async function loadAgents(){
+
+  showLoading();
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("agents")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        );
+
+    if(error){
+
+      console.error(error);
+
+      throw new Error(
+        error.message ||
+        "ไม่สามารถโหลดข้อมูลตัวแทนได้"
+      );
+
+    }
+
+    agents =
+      data || [];
+
+    updateStats();
+
+    renderAgents();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      error.message ||
+      "ไม่สามารถโหลดข้อมูลได้"
+    );
+
+  }
+  finally{
+
+    hideLoading();
+
+  }
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+  const total =
+    agents.length;
+
+  const active =
+    agents.filter(
+      agent =>
+        agent.status === "active"
+    ).length;
+
+  const inactive =
+    agents.filter(
+      agent =>
+        agent.status === "inactive"
+    ).length;
+
+  totalCount.textContent =
+    total;
+
+  activeCount.textContent =
+    active;
+
+  inactiveCount.textContent =
+    inactive;
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+searchInput.addEventListener(
+  "input",
+  renderAgents
+);
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderAgents(){
+
+  const keyword =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+  const filtered =
+    agents.filter(agent => {
+
+      const nickname =
+        String(
+          agent.nickname || ""
+        ).toLowerCase();
+
+      const code =
+        String(
+          agent.agent_code || ""
+        ).toLowerCase();
+
+      return (
+        nickname.includes(keyword) ||
+        code.includes(keyword)
+      );
+
+    });
+
+  if(filtered.length === 0){
+
+    agentList.innerHTML = `
+      <div class="empty">
+        ไม่พบข้อมูลตัวแทน
+      </div>
+    `;
+
+    return;
+  }
+
+  agentList.innerHTML =
+    filtered
+      .map(
+        agent =>
+          createAgentCard(agent)
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   CREATE AGENT CARD
+========================================================= */
+
+function createAgentCard(agent){
+
+  const id =
+    escapeHtml(
+      agent.id || ""
+    );
+
+  const nickname =
+    escapeHtml(
+      agent.nickname || "-"
+    );
+
+  const code =
+    escapeHtml(
+      agent.agent_code || "-"
+    );
+
+  const photo =
+    escapeHtml(
+      agent.photo_url || ""
+    );
+
+  const status =
+    agent.status === "active"
+      ? "active"
+      : "inactive";
+
+  const statusText =
+    status === "active"
+      ? "Active"
+      : "Inactive";
+
+  const joined =
+    formatThaiDate(
+      agent.joined_date ||
+      agent.created_at
+    );
+
+  const sales =
+    formatSalesChannels(
+      agent.sales_channels
+    );
+
+  return `
+
+    <article class="agent-card">
+
+      <div class="agent-top">
+
+        ${
+          photo
+          ? `
+            <img
+              class="agent-photo"
+              src="${photo}"
+              alt=""
+            >
+          `
+          : `
+            <div class="agent-photo"></div>
+          `
+        }
+
+        <div class="agent-main">
+
+          <div class="agent-name">
+            ${nickname}
+          </div>
+
+          <div class="agent-code">
+            ${code}
+          </div>
+
+          <div class="status ${status}">
+
+            <span class="status-dot"></span>
+
+            ${statusText}
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="agent-details">
+
+        <div class="detail-row">
+
+          <span class="detail-label">
+            วันที่สมัคร
+          </span>
+
+          <span class="detail-value">
+            ${joined}
+          </span>
+
+        </div>
+
+        <div class="detail-row">
+
+          <span class="detail-label">
+            ช่องทางขาย
+          </span>
+
+          <span class="detail-value">
+            ${sales}
+          </span>
+
+        </div>
+
+        <div class="detail-row">
+
+          <span class="detail-label">
+            LINE
+          </span>
+
+          <span class="detail-value">
+            ${escapeHtml(
+              getContact(
+                agent,
+                "LINE"
+              )
+            )}
+          </span>
+
+        </div>
+
+        <div class="detail-row">
+
+          <span class="detail-label">
+            Facebook
+          </span>
+
+          <span class="detail-value">
+            ${escapeHtml(
+              getContact(
+                agent,
+                "Facebook"
+              )
+            )}
+          </span>
+
+        </div>
+
+        <div class="detail-row">
+
+          <span class="detail-label">
+            Instagram
+          </span>
+
+          <span class="detail-value">
+            ${escapeHtml(
+              getContact(
+                agent,
+                "Instagram"
+              )
+            )}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="agent-actions">
+
+        <button
+          class="action-btn edit"
+          type="button"
+          onclick="openEdit('${id}')"
+        >
+          ✏️ แก้ไข
+        </button>
+
+        <button
+          class="action-btn toggle"
+          type="button"
+          onclick="toggleStatus('${id}')"
+        >
+          ${
+            status === "active"
+              ? "⏸ ปิดใช้งาน"
+              : "▶ เปิดใช้งาน"
+          }
+        </button>
+
+        <button
+          class="action-btn delete"
+          type="button"
+          onclick="deleteAgent('${id}')"
+        >
+          🗑️ ลบ
+        </button>
+
+        <button
+          class="action-btn"
+          type="button"
+          onclick="copyCode('${code}')"
+        >
+          📋 คัดลอกรหัส
+        </button>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* =========================================================
+   GET CONTACT
+========================================================= */
+
+function getContact(
+  agent,
+  key
+){
+
+  if(
+    !agent.contacts ||
+    typeof agent.contacts !== "object"
+  ){
+
+    return "-";
+
+  }
+
+  return (
+    agent.contacts[key] ||
+    "-"
+  );
+
+}
+
+
+/* =========================================================
+   FORMAT SALES
+========================================================= */
+
+function formatSalesChannels(
+  channels
+){
+
+  if(!Array.isArray(channels)){
+
+    return "-";
+
+  }
+
+  if(channels.length === 0){
+
+    return "-";
+
+  }
+
+  return channels
+    .map(formatSalesName)
+    .join(", ");
+
+}
+
+
+function formatSalesName(name){
+
+  if(name === "Twitter"){
+
+    return "𝕏 ทวิต";
+
+  }
+
+  return name;
+
+}
+
+
+/* =========================================================
+   FORMAT DATE
+========================================================= */
+
+function formatThaiDate(
+  dateString
+){
+
+  if(!dateString){
+
+    return "-";
+
+  }
+
+  const date =
+    new Date(dateString);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return "-";
+
+  }
+
+  return date.toLocaleDateString(
+    "th-TH",
+    {
+      day:"numeric",
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+/* =========================================================
+   OPEN EDIT
+========================================================= */
+
+window.openEdit =
+function(id){
+
+  const agent =
+    agents.find(
+      item =>
+        item.id === id
+    );
+
+  if(!agent){
+
+    return;
+
+  }
+
+  editId.value =
+    agent.id || "";
+
+  editCode.value =
+    agent.agent_code || "";
+
+  editNickname.value =
+    agent.nickname || "";
+
+  editLine.value =
+    getContact(
+      agent,
+      "LINE"
+    ) === "-"
+      ? ""
+      : getContact(
+          agent,
+          "LINE"
+        );
+
+  editFacebook.value =
+    getContact(
+      agent,
+      "Facebook"
+    ) === "-"
+      ? ""
+      : getContact(
+          agent,
+          "Facebook"
+        );
+
+  editInstagram.value =
+    getContact(
+      agent,
+      "Instagram"
+    ) === "-"
+      ? ""
+      : getContact(
+          agent,
+          "Instagram"
+        );
+
+  editStatus.value =
+    agent.status || "active";
+
+  editModal.classList.add(
+    "show"
+  );
+
+};
+
+
+/* =========================================================
+   CLOSE EDIT
+========================================================= */
+
+cancelEditBtn.addEventListener(
+  "click",
+  function(){
+
+    editModal.classList.remove(
+      "show"
+    );
+
+  }
+);
+
+
+editModal.addEventListener(
+  "click",
+  function(e){
+
+    if(
+      e.target === editModal
+    ){
+
+      editModal.classList.remove(
+        "show"
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   SAVE EDIT
+========================================================= */
+
+saveEditBtn.addEventListener(
+  "click",
+  async function(){
+
+    const id =
+      editId.value;
+
+    const nickname =
+      editNickname.value.trim();
+
+    const contacts = {
+
+      LINE:
+        editLine.value.trim(),
+
+      Facebook:
+        editFacebook.value.trim(),
+
+      Instagram:
+        editInstagram.value.trim()
+
+    };
+
+    const status =
+      editStatus.value;
+
+    if(!nickname){
+
+      alert(
+        "กรุณากรอกชื่อเล่น"
+      );
+
+      return;
+
+    }
+
+    showLoading();
+
+    try{
+
+      const {
+        error
+      } =
+      await supabaseClient
+        .from("agents")
+        .update({
+
+          nickname:nickname,
+
+          contacts:contacts,
+
+          status:status
+
+        })
+        .eq(
+          "id",
+          id
+        );
+
+      if(error){
+
+        console.error(error);
+
+        throw new Error(
+          error.message ||
+          "ไม่สามารถบันทึกข้อมูลได้"
+        );
+
+      }
+
+      editModal.classList.remove(
+        "show"
+      );
+
+      await loadAgents();
+
+      alert(
+        "บันทึกข้อมูลเรียบร้อยแล้ว"
+      );
+
+    }
+    catch(error){
+
+      console.error(error);
+
+      alert(
+        error.message ||
+        "เกิดข้อผิดพลาด"
+      );
+
+    }
+    finally{
+
+      hideLoading();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   TOGGLE STATUS
+========================================================= */
+
+window.toggleStatus =
+async function(id){
+
+  const agent =
+    agents.find(
+      item =>
+        item.id === id
+    );
+
+  if(!agent){
+
+    return;
+
+  }
+
+  const nextStatus =
+    agent.status === "active"
+      ? "inactive"
+      : "active";
+
+  const text =
+    nextStatus === "active"
+      ? "เปิดใช้งาน"
+      : "ปิดใช้งาน";
+
+  const confirmed =
+    confirm(
+      `ต้องการ${text} ${agent.nickname || ""} ใช่หรือไม่?`
+    );
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+  showLoading();
+
+  try{
+
+    const {
+      error
+    } =
+    await supabaseClient
+      .from("agents")
+      .update({
+
+        status:nextStatus
+
+      })
+      .eq(
+        "id",
+        id
+      );
+
+    if(error){
+
+      console.error(error);
+
+      throw new Error(
+        error.message ||
+        "ไม่สามารถเปลี่ยนสถานะได้"
+      );
+
+    }
+
+    await loadAgents();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      error.message ||
+      "เกิดข้อผิดพลาด"
+    );
+
+  }
+  finally{
+
+    hideLoading();
+
+  }
+
+};
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+window.deleteAgent =
+async function(id){
+
+  const agent =
+    agents.find(
+      item =>
+        item.id === id
+    );
+
+  if(!agent){
+
+    return;
+
+  }
+
+  const confirmed =
+    confirm(
+      `ต้องการลบตัวแทน "${agent.nickname || ""}" (${agent.agent_code || ""}) ใช่หรือไม่?\n\nข้อมูลนี้จะถูกลบออกจากระบบ`
+    );
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+  const confirmedAgain =
+    confirm(
+      "ยืนยันอีกครั้งว่าต้องการลบข้อมูลตัวแทนนี้"
+    );
+
+  if(!confirmedAgain){
+
+    return;
+
+  }
+
+  showLoading();
+
+  try{
+
+    const {
+      error
+    } =
+    await supabaseClient
+      .from("agents")
+      .delete()
+      .eq(
+        "id",
+        id
+      );
+
+    if(error){
+
+      console.error(error);
+
+      throw new Error(
+        error.message ||
+        "ไม่สามารถลบข้อมูลได้"
+      );
+
+    }
+
+    await loadAgents();
+
+    alert(
+      "ลบข้อมูลเรียบร้อยแล้ว"
+    );
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      error.message ||
+      "เกิดข้อผิดพลาด"
+    );
+
+  }
+  finally{
+
+    hideLoading();
+
+  }
+
+};
+
+
+/* =========================================================
+   COPY CODE
+========================================================= */
+
+window.copyCode =
+async function(code){
+
+  if(!code){
+
+    return;
+
+  }
+
+  try{
+
+    await navigator.clipboard.writeText(
+      code
+    );
+
+    alert(
+      "คัดลอกรหัส " +
+      code +
+      " แล้ว"
+    );
+
+  }
+  catch(error){
+
+    alert(
+      "รหัสตัวแทน: " +
+      code
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+logoutBtn.addEventListener(
+  "click",
+  async function(){
+
+    const confirmed =
+      confirm(
+        "ต้องการออกจากระบบหรือไม่?"
+      );
+
+    if(!confirmed){
+
+      return;
+
+    }
+
+    await supabaseClient.auth.signOut();
+
+    agents = [];
+
+    adminApp.style.display =
+      "none";
+
+    loginScreen.style.display =
+      "flex";
+
+    loginPassword.value = "";
+
+  }
+);
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+  async function(
+    event,
+    session
+  ){
+
+    if(
+      event === "SIGNED_OUT"
+    ){
+
+      adminApp.style.display =
+        "none";
+
+      loginScreen.style.display =
+        "flex";
+
+      return;
+
+    }
+
+    if(
+      session &&
+      event === "INITIAL_SESSION"
+    ){
+
+      try{
+
+        const {
+          data,
+          error
+        } =
+        await supabaseClient.rpc(
+          "is_admin"
+        );
+
+        if(
+          !error &&
+          data === true
+        ){
+
+          showAdmin();
+
+          await loadAgents();
+
+        }
+
+      }
+      catch(error){
+
+        console.error(error);
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+function showLoading(){
+
+  loading.classList.add(
+    "show"
+  );
+
+}
+
+
+function hideLoading(){
+
+  loading.classList.remove(
+    "show"
+  );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(
+  value
+){
+
+  return String(value || "")
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+</script>
+
+</body>
+</html>
