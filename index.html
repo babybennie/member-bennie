@@ -116,6 +116,9 @@
         transition: all 0.18s ease;
         box-shadow: 0 5px 14px rgba(190, 110, 140, 0.06);
         color: #684f5a;
+
+        /* สำคัญสำหรับ <a> */
+        text-decoration: none;
     }
 
     .menu-button:last-child {
@@ -278,9 +281,9 @@
 
 
         <!-- APPLY -->
-        <button
+        <a
             class="menu-button"
-            onclick="openPage('APPLY')"
+            href="https://agentapply-bennie.netlify.app/"
         >
 
             <div class="icon apply-icon">
@@ -301,13 +304,13 @@
                 ›
             </div>
 
-        </button>
+        </a>
 
 
         <!-- CHECK -->
-        <button
+        <a
             class="menu-button"
-            onclick="openPage('CHECK')"
+            href="https://agentcheck-bennie.netlify.app/"
         >
 
             <div class="icon check-icon">
@@ -328,13 +331,13 @@
                 ›
             </div>
 
-        </button>
+        </a>
 
 
         <!-- ADMIN -->
-        <button
+        <a
             class="menu-button"
-            onclick="openPage('ADMIN')"
+            href="https://agentadmin-bennie.netlify.app/"
         >
 
             <div class="icon admin-icon">
@@ -355,7 +358,7 @@
                 ›
             </div>
 
-        </button>
+        </a>
 
     </div>
 
@@ -367,52 +370,6 @@
     </div>
 
 </div>
-
-
-<script>
-
-/*
-====================================================
-URL ของเว็บทั้ง 3 ระบบ
-====================================================
-*/
-
-const AGENT_APPLY_URL =
-    "https://agentapply-bennie.netlify.app/";
-
-const AGENT_CHECK_URL =
-    "https://agentcheck-bennie.netlify.app/";
-
-const AGENT_ADMIN_URL =
-    "https://agentadmin-bennie.netlify.app/";
-
-
-/*
-====================================================
-เปิดหน้าระบบ
-====================================================
-*/
-
-function openPage(type) {
-
-    if (type === "APPLY") {
-        window.location.href = AGENT_APPLY_URL;
-        return;
-    }
-
-    if (type === "CHECK") {
-        window.location.href = AGENT_CHECK_URL;
-        return;
-    }
-
-    if (type === "ADMIN") {
-        window.location.href = AGENT_ADMIN_URL;
-        return;
-    }
-
-}
-
-</script>
 
 </body>
 </html>
