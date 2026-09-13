@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>สมัครตัวแทน | Bennie Choco</title>
+<title>Admin | Bennie Choco</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -20,422 +20,588 @@ html,body{
   min-height:100%;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",
   "Noto Sans Thai",Tahoma,sans-serif;
-  background:#fff8f3;
-  color:#5a4037;
+  background:#fff5f8;
+  color:#624953;
 }
 
 body{
-  display:flex;
-  justify-content:center;
-  padding:22px 14px 40px;
+  padding:20px 14px 45px;
 }
 
-.page{
-  width:100%;
-  max-width:520px;
+button,
+input,
+select{
+  font-family:inherit;
 }
 
-/* ---------- HEADER ---------- */
-
-.header{
-  text-align:center;
-  margin:8px 0 20px;
+button{
+  cursor:pointer;
 }
 
-.logo{
-  width:92px;
-  height:92px;
-  border-radius:50%;
-  background:#fff;
-  margin:0 auto 12px;
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.login-page{
+  min-height:calc(100vh - 40px);
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 8px 25px rgba(115,78,58,.12);
-  border:1px solid #f1ddd2;
-  overflow:hidden;
 }
 
-.logo span{
-  font-size:35px;
-}
-
-.brand{
-  font-size:28px;
-  font-weight:800;
-  color:#734c3c;
-  letter-spacing:.3px;
-}
-
-.subtitle{
-  margin-top:5px;
-  font-size:14px;
-  color:#9b7b6e;
-}
-
-/* ---------- CARD ---------- */
-
-.card{
+.login-card{
+  width:100%;
+  max-width:400px;
   background:#fff;
-  border-radius:24px;
-  padding:22px 18px 24px;
-  box-shadow:0 10px 35px rgba(117,76,55,.10);
-  border:1px solid #f2e2da;
+  border:1px solid #f2dce4;
+  border-radius:26px;
+  padding:28px 21px 25px;
+  box-shadow:0 15px 45px rgba(190,125,145,.13);
 }
 
-.section-title{
-  font-size:18px;
-  font-weight:800;
-  color:#68473b;
-  margin:0 0 18px;
+.login-logo{
+  width:82px;
+  height:82px;
+  border-radius:50%;
+  background:#fff0f5;
+  border:1px solid #f0d5df;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 13px;
+  font-size:34px;
 }
 
-label{
+.login-brand{
+  text-align:center;
+  color:#c87591;
+  font-size:27px;
+  font-weight:850;
+}
+
+.login-subtitle{
+  text-align:center;
+  color:#a98895;
+  font-size:13px;
+  margin-top:4px;
+  margin-bottom:25px;
+}
+
+.login-label{
   display:block;
   font-size:14px;
-  font-weight:700;
-  color:#6e5046;
-  margin:0 0 7px;
+  font-weight:750;
+  color:#735763;
+  margin-bottom:7px;
 }
 
-.required{
-  color:#d87878;
+.login-field{
+  margin-bottom:15px;
 }
 
-.field{
-  margin-bottom:17px;
-}
-
-input[type="text"],
-input[type="url"]{
+.login-input{
   width:100%;
-  height:48px;
-  border:1px solid #ead8cf;
+  height:49px;
+  border:1px solid #ead6de;
   border-radius:13px;
   padding:0 14px;
-  font-size:15px;
   outline:none;
-  color:#5a4037;
-  background:#fffdfc;
-  transition:.2s;
+  background:#fffafb;
+  color:#624953;
+  font-size:15px;
 }
 
-input[type="text"]:focus,
-input[type="url"]:focus{
-  border-color:#d7a898;
-  box-shadow:0 0 0 3px rgba(215,168,152,.13);
+.login-input:focus{
+  border-color:#dfa1b6;
+  box-shadow:0 0 0 3px rgba(223,161,182,.13);
 }
 
-input::placeholder{
-  color:#bdaaa1;
+.login-btn{
+  width:100%;
+  height:51px;
+  border:0;
+  border-radius:15px;
+  background:linear-gradient(135deg,#dc91a9,#c87591);
+  color:#fff;
+  font-size:16px;
+  font-weight:800;
+  margin-top:5px;
+  box-shadow:0 7px 18px rgba(200,117,145,.22);
 }
 
-/* ---------- CONTACT ---------- */
-
-.contact-box{
-  background:#fff9f6;
-  border:1px solid #f1e1d9;
-  border-radius:17px;
-  padding:14px;
-}
-
-.contact-row{
-  margin-bottom:12px;
-}
-
-.contact-row:last-child{
-  margin-bottom:0;
-}
-
-.contact-label{
+.login-error{
+  display:none;
+  margin-top:13px;
+  padding:11px 12px;
+  border-radius:12px;
+  background:#fff0f3;
+  color:#bd647c;
+  border:1px solid #f1d0d9;
   font-size:13px;
-  font-weight:700;
-  margin-bottom:6px;
-  color:#76564a;
+  text-align:center;
 }
 
-.contact-label span{
-  font-weight:500;
-  color:#aa9187;
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+  display:none;
+  width:100%;
+  max-width:1050px;
+  margin:0 auto;
 }
 
-/* ---------- CHECKBOX ---------- */
-
-.check-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
+.app.show{
+  display:block;
 }
 
-.check-item{
-  position:relative;
+/* =========================================================
+   HEADER
+========================================================= */
+
+.topbar{
+  background:#fff;
+  border:1px solid #f1dbe3;
+  border-radius:22px;
+  padding:16px 17px;
+  box-shadow:0 8px 28px rgba(190,125,145,.10);
+  margin-bottom:15px;
 }
 
-.check-item input{
-  position:absolute;
-  opacity:0;
-  pointer-events:none;
-}
-
-.check-item label{
-  margin:0;
-  min-height:45px;
+.topbar-inner{
   display:flex;
   align-items:center;
-  padding:9px 11px;
-  border:1px solid #eadbd4;
-  border-radius:12px;
-  background:#fffdfc;
-  cursor:pointer;
-  font-weight:600;
-  color:#6d5045;
-  transition:.18s;
+  justify-content:space-between;
+  gap:12px;
 }
 
-.check-item input:checked + label{
-  background:#fff0e9;
-  border-color:#d9a391;
-  color:#774838;
+.brand-wrap{
+  display:flex;
+  align-items:center;
+  gap:11px;
 }
 
-.check-item input:checked + label::after{
-  content:"✓";
-  margin-left:auto;
-  font-weight:800;
-  color:#b97560;
+.brand-icon{
+  width:48px;
+  height:48px;
+  border-radius:15px;
+  background:#fff0f5;
+  border:1px solid #f0d5df;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
 }
 
-/* ---------- PHOTO ---------- */
+.brand-title{
+  color:#c87591;
+  font-size:21px;
+  font-weight:850;
+}
 
-.photo-area{
-  border:1.5px dashed #dfb9a8;
+.brand-sub{
+  color:#a98a96;
+  font-size:12px;
+  margin-top:1px;
+}
+
+.logout-btn{
+  border:1px solid #efd5de;
+  background:#fff7fa;
+  color:#bd6e88;
+  border-radius:11px;
+  padding:9px 12px;
+  font-size:12px;
+  font-weight:750;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.stat{
+  background:#fff;
+  border:1px solid #f1dbe3;
   border-radius:18px;
-  padding:18px 14px;
-  text-align:center;
-  background:#fffaf7;
-  cursor:pointer;
+  padding:15px 13px;
+  box-shadow:0 7px 22px rgba(190,125,145,.07);
 }
 
-.photo-preview{
-  width:105px;
-  height:105px;
-  border-radius:50%;
-  object-fit:cover;
-  display:none;
-  margin:0 auto 10px;
-  border:4px solid #fff;
-  box-shadow:0 5px 18px rgba(100,65,50,.15);
+.stat-label{
+  color:#a48994;
+  font-size:12px;
 }
 
-.photo-icon{
-  font-size:34px;
-  margin-bottom:5px;
+.stat-number{
+  color:#c87591;
+  font-size:25px;
+  font-weight:850;
+  margin-top:3px;
 }
 
-.photo-main{
-  font-weight:700;
-  color:#765247;
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+  background:#fff;
+  border:1px solid #f1dbe3;
+  border-radius:19px;
+  padding:13px;
+  margin-bottom:15px;
+  box-shadow:0 7px 22px rgba(190,125,145,.07);
+}
+
+.search-box{
+  width:100%;
+  height:46px;
+  border:1px solid #ead6de;
+  border-radius:13px;
+  padding:0 14px;
+  outline:none;
+  color:#624953;
+  background:#fffafb;
   font-size:14px;
 }
 
-.photo-sub{
-  font-size:12px;
-  color:#aa9287;
-  margin-top:4px;
+.search-box:focus{
+  border-color:#dfa1b6;
+  box-shadow:0 0 0 3px rgba(223,161,182,.12);
 }
 
-#photoInput{
-  display:none;
-}
-
-/* ---------- BUTTON ---------- */
-
-.submit-btn{
-  width:100%;
-  height:54px;
-  border:0;
-  border-radius:16px;
-  background:linear-gradient(135deg,#8b5e4b,#b67a62);
-  color:#fff;
-  font-size:17px;
-  font-weight:800;
-  cursor:pointer;
-  box-shadow:0 7px 18px rgba(139,94,75,.22);
-  margin-top:5px;
-}
-
-.submit-btn:active{
-  transform:scale(.985);
-}
-
-.submit-btn:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
-
-/* ---------- NOTE ---------- */
-
-.note{
-  margin-top:14px;
-  text-align:center;
-  color:#a18a80;
-  font-size:12px;
-  line-height:1.6;
-}
-
-/* ---------- MODAL ---------- */
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(49,32,26,.55);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  z-index:1000;
-  backdrop-filter:blur(4px);
-}
-
-.modal.show{
+.toolbar-row{
   display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
 }
 
-.success-card{
-  width:100%;
-  max-width:390px;
+.result-count{
+  color:#a48994;
+  font-size:12px;
+}
+
+.refresh-btn{
+  border:1px solid #efd5de;
+  background:#fff7fa;
+  color:#bd6e88;
+  border-radius:11px;
+  padding:8px 12px;
+  font-size:12px;
+  font-weight:750;
+}
+
+/* =========================================================
+   AGENTS
+========================================================= */
+
+.agents{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:13px;
+}
+
+.agent{
   background:#fff;
-  border-radius:25px;
-  padding:25px 20px 22px;
-  text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.2);
-  animation:pop .22s ease;
+  border:1px solid #f1dbe3;
+  border-radius:21px;
+  padding:16px;
+  box-shadow:0 8px 27px rgba(190,125,145,.08);
 }
 
-@keyframes pop{
-  from{
-    opacity:0;
-    transform:scale(.94);
-  }
-  to{
-    opacity:1;
-    transform:scale(1);
-  }
-}
-
-.success-icon{
-  font-size:42px;
-  margin-bottom:4px;
-}
-
-.success-title{
-  font-size:22px;
-  font-weight:800;
-  color:#67463b;
-}
-
-.success-sub{
-  font-size:13px;
-  color:#9b8177;
-  margin:5px 0 18px;
-}
-
-.agent-card{
-  border:1px solid #ecdcd5;
-  border-radius:19px;
-  padding:17px;
-  background:#fffaf7;
+.agent-top{
+  display:flex;
+  gap:13px;
+  align-items:center;
 }
 
 .agent-photo{
-  width:100px;
-  height:100px;
+  width:72px;
+  height:72px;
   border-radius:50%;
   object-fit:cover;
-  border:4px solid #fff;
-  box-shadow:0 5px 18px rgba(80,50,40,.15);
+  border:3px solid #fff0f5;
+  box-shadow:0 4px 13px rgba(150,90,110,.12);
+  background:#fff0f5;
+}
+
+.agent-main{
+  min-width:0;
+  flex:1;
 }
 
 .agent-name{
-  font-size:21px;
-  font-weight:800;
-  margin-top:10px;
-  color:#68473b;
+  color:#6d4d58;
+  font-size:17px;
+  font-weight:850;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .agent-code{
   display:inline-block;
-  margin-top:6px;
-  padding:7px 13px;
+  margin-top:5px;
+  padding:5px 9px;
   border-radius:999px;
-  background:#f5e5dd;
-  color:#774c3d;
-  font-size:14px;
+  background:#fff0f5;
+  color:#bd6e88;
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:.4px;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:10px;
   font-weight:800;
-  letter-spacing:.5px;
+  margin-top:7px;
+}
+
+.status.active{
+  background:#edf8f1;
+  color:#62a37b;
+}
+
+.status.inactive{
+  background:#fff0f3;
+  color:#bd6b80;
 }
 
 .agent-info{
-  text-align:left;
-  margin-top:15px;
-  border-top:1px solid #eee0da;
-  padding-top:12px;
+  border-top:1px solid #f4e4e9;
+  margin-top:14px;
+  padding-top:11px;
 }
 
 .info-row{
   display:flex;
   justify-content:space-between;
   gap:12px;
-  padding:5px 0;
-  font-size:13px;
+  padding:4px 0;
+  font-size:12px;
 }
 
 .info-label{
-  color:#a18a80;
+  color:#ad929d;
 }
 
 .info-value{
-  color:#65483e;
+  color:#70535d;
   font-weight:700;
   text-align:right;
+  word-break:break-word;
 }
 
-.copy-btn{
-  width:100%;
-  height:45px;
-  border:1px solid #dcb5a4;
-  border-radius:12px;
-  background:#fff;
-  color:#765044;
+.contact-list{
+  margin-top:5px;
+}
+
+.contact-item{
+  padding:4px 0;
+  color:#765863;
+  font-size:12px;
+  word-break:break-word;
+}
+
+.sales-list{
+  color:#9d7080;
+}
+
+.agent-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+  margin-top:14px;
+}
+
+.action-btn{
+  height:40px;
+  border-radius:11px;
+  font-size:12px;
   font-weight:800;
-  margin-top:15px;
-  cursor:pointer;
 }
 
-.close-btn{
-  width:100%;
-  height:47px;
-  border:0;
-  border-radius:13px;
-  background:#754d3d;
-  color:#fff;
-  font-weight:800;
-  font-size:15px;
-  margin-top:9px;
-  cursor:pointer;
+.edit-btn{
+  border:1px solid #e9c6d1;
+  background:#fff6f9;
+  color:#b96781;
 }
 
-/* ---------- LOADING ---------- */
+.toggle-btn{
+  border:1px solid #e0d1d6;
+  background:#faf7f8;
+  color:#806b73;
+}
 
-.loading{
+.delete-btn{
+  grid-column:1 / -1;
+  border:1px solid #f0cbd4;
+  background:#fff2f4;
+  color:#c36b80;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty{
   display:none;
+  background:#fff;
+  border:1px solid #f1dbe3;
+  border-radius:21px;
+  padding:42px 20px;
+  text-align:center;
+  color:#a98b96;
+}
+
+.empty-icon{
+  font-size:36px;
+  margin-bottom:8px;
+}
+
+.empty-title{
+  color:#80636d;
+  font-weight:800;
+  font-size:16px;
+}
+
+.empty-sub{
+  font-size:12px;
+  margin-top:4px;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
   position:fixed;
   inset:0;
-  background:rgba(255,255,255,.7);
-  z-index:2000;
+  background:rgba(76,47,58,.42);
+  backdrop-filter:blur(5px);
+  display:none;
   align-items:center;
   justify-content:center;
+  padding:15px;
+  z-index:1000;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-card{
+  width:100%;
+  max-width:470px;
+  max-height:92vh;
+  overflow:auto;
+  background:#fff;
+  border:1px solid #f1dbe3;
+  border-radius:23px;
+  padding:21px;
+  box-shadow:0 20px 60px rgba(90,50,65,.20);
+}
+
+.modal-title{
+  color:#bd6e88;
+  font-size:19px;
+  font-weight:850;
+  margin-bottom:17px;
+}
+
+.modal-field{
+  margin-bottom:13px;
+}
+
+.modal-label{
+  display:block;
+  color:#735763;
+  font-size:12px;
+  font-weight:750;
+  margin-bottom:6px;
+}
+
+.modal-input{
+  width:100%;
+  height:45px;
+  border:1px solid #ead6de;
+  border-radius:12px;
+  padding:0 12px;
+  outline:none;
+  color:#624953;
+  background:#fffafb;
+  font-size:14px;
+}
+
+.modal-input:focus{
+  border-color:#dfa1b6;
+}
+
+.modal-textarea{
+  width:100%;
+  min-height:80px;
+  resize:vertical;
+  border:1px solid #ead6de;
+  border-radius:12px;
+  padding:10px 12px;
+  outline:none;
+  color:#624953;
+  background:#fffafb;
+  font-size:14px;
+}
+
+.modal-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:18px;
+}
+
+.save-btn{
+  height:46px;
+  border:0;
+  border-radius:12px;
+  background:#d4879f;
+  color:#fff;
+  font-weight:800;
+}
+
+.cancel-btn{
+  height:46px;
+  border:1px solid #ead6de;
+  border-radius:12px;
+  background:#fff8fa;
+  color:#80636d;
+  font-weight:800;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading{
+  position:fixed;
+  inset:0;
+  background:rgba(255,248,250,.75);
   backdrop-filter:blur(3px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2000;
 }
 
 .loading.show{
@@ -444,379 +610,463 @@ input::placeholder{
 
 .loading-box{
   background:#fff;
-  border-radius:18px;
-  padding:22px 28px;
-  box-shadow:0 10px 35px rgba(0,0,0,.13);
+  border:1px solid #f0dce3;
+  border-radius:17px;
+  padding:20px 25px;
+  color:#80616d;
+  font-size:14px;
+  font-weight:750;
+  box-shadow:0 10px 35px rgba(120,70,90,.15);
   text-align:center;
-  color:#68473b;
-  font-weight:700;
 }
 
 .spinner{
-  width:30px;
-  height:30px;
-  border:3px solid #ead9d1;
-  border-top-color:#8b5e4b;
+  width:29px;
+  height:29px;
+  border:3px solid #f1dce3;
+  border-top-color:#d4879f;
   border-radius:50%;
   animation:spin .7s linear infinite;
-  margin:0 auto 10px;
+  margin:0 auto 9px;
 }
 
 @keyframes spin{
-  to{transform:rotate(360deg)}
+  to{
+    transform:rotate(360deg);
+  }
 }
 
-/* ---------- RESPONSIVE ---------- */
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-@media(max-width:380px){
-  .card{
-    padding:19px 14px 21px;
-  }
+@media(max-width:700px){
 
-  .brand{
-    font-size:25px;
-  }
-
-  .check-grid{
+  .agents{
     grid-template-columns:1fr;
   }
+
 }
+
+@media(max-width:430px){
+
+  body{
+    padding:13px 10px 35px;
+  }
+
+  .stats{
+    gap:7px;
+  }
+
+  .stat{
+    padding:12px 9px;
+  }
+
+  .stat-number{
+    font-size:22px;
+  }
+
+  .topbar{
+    border-radius:19px;
+  }
+
+  .brand-title{
+    font-size:19px;
+  }
+
+  .logout-btn{
+    padding:8px 9px;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="page">
+<!-- =======================================================
+     LOGIN
+======================================================= -->
 
-  <header class="header">
+<div id="loginPage" class="login-page">
 
-    <div class="logo">
-      <span>🍫</span>
+  <div class="login-card">
+
+    <div class="login-logo">
+      🍫
     </div>
 
-    <div class="brand">
+    <div class="login-brand">
       Bennie Choco
     </div>
 
-    <div class="subtitle">
-      สมัครเป็นตัวแทนจำหน่าย
+    <div class="login-subtitle">
+      ระบบจัดการตัวแทนจำหน่าย
     </div>
 
-  </header>
+    <div class="login-field">
 
-
-  <main class="card">
-
-    <h1 class="section-title">
-      แบบฟอร์มสมัครตัวแทน
-    </h1>
-
-
-    <!-- ชื่อเล่น -->
-
-    <div class="field">
-
-      <label>
-        ชื่อเล่น <span class="required">*</span>
+      <label class="login-label">
+        อีเมล
       </label>
 
       <input
-        id="nickname"
-        type="text"
-        maxlength="50"
-        placeholder="เช่น เบนนี่"
+        id="loginEmail"
+        class="login-input"
+        type="email"
+        placeholder="อีเมลแอดมิน"
+        autocomplete="email"
       >
 
     </div>
 
+    <div class="login-field">
 
-    <!-- ช่องทางติดต่อ -->
-
-    <div class="field">
-
-      <label>
-        ช่องทางติดต่อ
-        <span class="required">*</span>
-      </label>
-
-      <div class="contact-box">
-
-        <div class="contact-row">
-
-          <div class="contact-label">
-            LINE <span>(ถ้ามี)</span>
-          </div>
-
-          <input
-            id="lineContact"
-            type="text"
-            maxlength="100"
-            placeholder="LINE ID"
-          >
-
-        </div>
-
-
-        <div class="contact-row">
-
-          <div class="contact-label">
-            Facebook <span>(ถ้ามี)</span>
-          </div>
-
-          <input
-            id="facebookContact"
-            type="text"
-            maxlength="150"
-            placeholder="ชื่อหรือโปรไฟล์ Facebook"
-          >
-
-        </div>
-
-
-        <div class="contact-row">
-
-          <div class="contact-label">
-            Instagram <span>(ถ้ามี)</span>
-          </div>
-
-          <input
-            id="instagramContact"
-            type="text"
-            maxlength="100"
-            placeholder="@username"
-          >
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- ช่องทางการขาย -->
-
-    <div class="field">
-
-      <label>
-        ช่องทางที่ใช้ขายสินค้า
-        <span class="required">*</span>
-      </label>
-
-      <div class="check-grid">
-
-        <div class="check-item">
-          <input id="saleFacebook" type="checkbox" value="Facebook">
-          <label for="saleFacebook">Facebook</label>
-        </div>
-
-        <div class="check-item">
-          <input id="saleInstagram" type="checkbox" value="Instagram">
-          <label for="saleInstagram">Instagram</label>
-        </div>
-
-        <div class="check-item">
-          <input id="saleTikTok" type="checkbox" value="TikTok">
-          <label for="saleTikTok">TikTok</label>
-        </div>
-
-        <div class="check-item">
-          <input id="saleTwitter" type="checkbox" value="Twitter">
-          <label for="saleTwitter">𝕏 ทวิต</label>
-        </div>
-
-        <div class="check-item">
-          <input id="saleLINE" type="checkbox" value="LINE">
-          <label for="saleLINE">LINE</label>
-        </div>
-
-        <div class="check-item">
-          <input id="saleOther" type="checkbox" value="อื่น ๆ">
-          <label for="saleOther">อื่น ๆ</label>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- รูป -->
-
-    <div class="field">
-
-      <label>
-        รูปโปรไฟล์
-        <span class="required">*</span>
-      </label>
-
-      <label class="photo-area" for="photoInput">
-
-        <img
-          id="photoPreview"
-          class="photo-preview"
-          alt="รูปตัวแทน"
-        >
-
-        <div id="photoIcon" class="photo-icon">
-          📷
-        </div>
-
-        <div id="photoMain" class="photo-main">
-          แตะเพื่อเลือกรูปจากมือถือ
-        </div>
-
-        <div class="photo-sub">
-          JPG / PNG / WEBP ขนาดไม่เกิน 5 MB
-        </div>
-
+      <label class="login-label">
+        รหัสผ่าน
       </label>
 
       <input
-        id="photoInput"
-        type="file"
-        accept="image/jpeg,image/png,image/webp"
+        id="loginPassword"
+        class="login-input"
+        type="password"
+        placeholder="รหัสผ่าน"
+        autocomplete="current-password"
       >
 
     </div>
-
 
     <button
-      id="submitBtn"
-      class="submit-btn"
+      id="loginBtn"
+      class="login-btn"
       type="button"
     >
-      สมัครเป็นตัวแทน
+      เข้าสู่ระบบ
     </button>
 
-
-    <div class="note">
-      กรุณาตรวจสอบข้อมูลก่อนกดสมัคร<br>
-      หลังสมัครสำเร็จ ระบบจะสร้างรหัสตัวแทนให้อัตโนมัติ
-    </div>
-
-  </main>
-
-</div>
-
-
-<!-- SUCCESS MODAL -->
-
-<div id="successModal" class="modal">
-
-  <div class="success-card">
-
-    <div class="success-icon">
-      🎉
-    </div>
-
-    <div class="success-title">
-      สมัครสำเร็จ!
-    </div>
-
-    <div class="success-sub">
-      ยินดีต้อนรับสู่ Bennie Choco
-    </div>
-
-
-    <div class="agent-card">
-
-      <img
-        id="agentPhoto"
-        class="agent-photo"
-        alt="รูปตัวแทน"
-      >
-
-      <div
-        id="agentName"
-        class="agent-name"
-      ></div>
-
-      <div
-        id="agentCode"
-        class="agent-code"
-      ></div>
-
-
-      <div class="agent-info">
-
-        <div class="info-row">
-
-          <span class="info-label">
-            วันที่สมัคร
-          </span>
-
-          <span
-            id="agentDate"
-            class="info-value"
-          ></span>
-
-        </div>
-
-
-        <div class="info-row">
-
-          <span class="info-label">
-            สถานะ
-          </span>
-
-          <span
-            id="agentStatus"
-            class="info-value"
-          >
-            Active
-          </span>
-
-        </div>
-
-
-        <div class="info-row">
-
-          <span class="info-label">
-            ช่องทางขาย
-          </span>
-
-          <span
-            id="agentSales"
-            class="info-value"
-          ></span>
-
-        </div>
-
-      </div>
-
-
-      <button
-        id="copyCodeBtn"
-        class="copy-btn"
-        type="button"
-      >
-        📋 คัดลอกรหัสตัวแทน
-      </button>
-
-    </div>
-
-
-    <button
-      id="closeModalBtn"
-      class="close-btn"
-      type="button"
-    >
-      เสร็จสิ้น
-    </button>
+    <div
+      id="loginError"
+      class="login-error"
+    ></div>
 
   </div>
 
 </div>
 
 
-<!-- LOADING -->
+<!-- =======================================================
+     APP
+======================================================= -->
 
-<div id="loading" class="loading">
+<div id="app" class="app">
+
+  <!-- HEADER -->
+
+  <header class="topbar">
+
+    <div class="topbar-inner">
+
+      <div class="brand-wrap">
+
+        <div class="brand-icon">
+          🍫
+        </div>
+
+        <div>
+
+          <div class="brand-title">
+            Bennie Choco
+          </div>
+
+          <div class="brand-sub">
+            Admin • จัดการตัวแทน
+          </div>
+
+        </div>
+
+      </div>
+
+      <button
+        id="logoutBtn"
+        class="logout-btn"
+        type="button"
+      >
+        ออกจากระบบ
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- STATS -->
+
+  <section class="stats">
+
+    <div class="stat">
+
+      <div class="stat-label">
+        ตัวแทนทั้งหมด
+      </div>
+
+      <div
+        id="totalCount"
+        class="stat-number"
+      >
+        0
+      </div>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="stat-label">
+        ใช้งานอยู่
+      </div>
+
+      <div
+        id="activeCount"
+        class="stat-number"
+      >
+        0
+      </div>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="stat-label">
+        ปิดใช้งาน
+      </div>
+
+      <div
+        id="inactiveCount"
+        class="stat-number"
+      >
+        0
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- TOOLBAR -->
+
+  <section class="toolbar">
+
+    <input
+      id="searchInput"
+      class="search-box"
+      type="search"
+      placeholder="ค้นหาชื่อเล่น หรือรหัสตัวแทน เช่น BC-0001"
+    >
+
+    <div class="toolbar-row">
+
+      <div
+        id="resultCount"
+        class="result-count"
+      >
+        กำลังโหลด...
+      </div>
+
+      <button
+        id="refreshBtn"
+        class="refresh-btn"
+        type="button"
+      >
+        ↻ รีเฟรช
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- AGENTS -->
+
+  <section
+    id="agents"
+    class="agents"
+  ></section>
+
+
+  <!-- EMPTY -->
+
+  <section
+    id="empty"
+    class="empty"
+  >
+
+    <div class="empty-icon">
+      🌸
+    </div>
+
+    <div class="empty-title">
+      ไม่พบข้อมูลตัวแทน
+    </div>
+
+    <div class="empty-sub">
+      ลองค้นหาด้วยชื่อเล่นหรือรหัสตัวแทนใหม่
+    </div>
+
+  </section>
+
+</div>
+
+
+<!-- =======================================================
+     EDIT MODAL
+======================================================= -->
+
+<div
+  id="editModal"
+  class="modal"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-title">
+      แก้ไขข้อมูลตัวแทน
+    </div>
+
+
+    <div class="modal-field">
+
+      <label class="modal-label">
+        รหัสตัวแทน
+      </label>
+
+      <input
+        id="editCode"
+        class="modal-input"
+        type="text"
+        disabled
+      >
+
+    </div>
+
+
+    <div class="modal-field">
+
+      <label class="modal-label">
+        ชื่อเล่น
+      </label>
+
+      <input
+        id="editNickname"
+        class="modal-input"
+        type="text"
+        maxlength="50"
+      >
+
+    </div>
+
+
+    <div class="modal-field">
+
+      <label class="modal-label">
+        LINE
+      </label>
+
+      <input
+        id="editLine"
+        class="modal-input"
+        type="text"
+        maxlength="100"
+      >
+
+    </div>
+
+
+    <div class="modal-field">
+
+      <label class="modal-label">
+        Facebook
+      </label>
+
+      <input
+        id="editFacebook"
+        class="modal-input"
+        type="text"
+        maxlength="150"
+      >
+
+    </div>
+
+
+    <div class="modal-field">
+
+      <label class="modal-label">
+        Instagram
+      </label>
+
+      <input
+        id="editInstagram"
+        class="modal-input"
+        type="text"
+        maxlength="100"
+      >
+
+    </div>
+
+
+    <div class="modal-field">
+
+      <label class="modal-label">
+        ช่องทางขาย
+      </label>
+
+      <textarea
+        id="editSales"
+        class="modal-textarea"
+        placeholder="Facebook, Instagram, TikTok"
+      ></textarea>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        id="cancelEditBtn"
+        class="cancel-btn"
+        type="button"
+      >
+        ยกเลิก
+      </button>
+
+      <button
+        id="saveEditBtn"
+        class="save-btn"
+        type="button"
+      >
+        บันทึกการแก้ไข
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     LOADING
+======================================================= -->
+
+<div
+  id="loading"
+  class="loading"
+>
 
   <div class="loading-box">
 
     <div class="spinner"></div>
 
-    กำลังส่งข้อมูล...
+    กำลังดำเนินการ...
 
   </div>
 
@@ -846,333 +1096,356 @@ const supabaseClient =
    ELEMENTS
 ========================================================= */
 
-const nicknameInput =
-  document.getElementById("nickname");
+const loginPage =
+  document.getElementById("loginPage");
 
-const lineInput =
-  document.getElementById("lineContact");
+const app =
+  document.getElementById("app");
 
-const facebookInput =
-  document.getElementById("facebookContact");
+const loginEmail =
+  document.getElementById("loginEmail");
 
-const instagramInput =
-  document.getElementById("instagramContact");
+const loginPassword =
+  document.getElementById("loginPassword");
 
-const photoInput =
-  document.getElementById("photoInput");
+const loginBtn =
+  document.getElementById("loginBtn");
 
-const photoPreview =
-  document.getElementById("photoPreview");
+const loginError =
+  document.getElementById("loginError");
 
-const photoIcon =
-  document.getElementById("photoIcon");
+const logoutBtn =
+  document.getElementById("logoutBtn");
 
-const photoMain =
-  document.getElementById("photoMain");
+const totalCount =
+  document.getElementById("totalCount");
 
-const submitBtn =
-  document.getElementById("submitBtn");
+const activeCount =
+  document.getElementById("activeCount");
+
+const inactiveCount =
+  document.getElementById("inactiveCount");
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const refreshBtn =
+  document.getElementById("refreshBtn");
+
+const resultCount =
+  document.getElementById("resultCount");
+
+const agentsContainer =
+  document.getElementById("agents");
+
+const empty =
+  document.getElementById("empty");
+
+const editModal =
+  document.getElementById("editModal");
+
+const editCode =
+  document.getElementById("editCode");
+
+const editNickname =
+  document.getElementById("editNickname");
+
+const editLine =
+  document.getElementById("editLine");
+
+const editFacebook =
+  document.getElementById("editFacebook");
+
+const editInstagram =
+  document.getElementById("editInstagram");
+
+const editSales =
+  document.getElementById("editSales");
+
+const cancelEditBtn =
+  document.getElementById("cancelEditBtn");
+
+const saveEditBtn =
+  document.getElementById("saveEditBtn");
 
 const loading =
   document.getElementById("loading");
 
-const successModal =
-  document.getElementById("successModal");
 
-const agentPhoto =
-  document.getElementById("agentPhoto");
+/* =========================================================
+   DATA
+========================================================= */
 
-const agentName =
-  document.getElementById("agentName");
+let allAgents = [];
 
-const agentCode =
-  document.getElementById("agentCode");
-
-const agentDate =
-  document.getElementById("agentDate");
-
-const agentStatus =
-  document.getElementById("agentStatus");
-
-const agentSales =
-  document.getElementById("agentSales");
-
-const copyCodeBtn =
-  document.getElementById("copyCodeBtn");
-
-const closeModalBtn =
-  document.getElementById("closeModalBtn");
+let editingAgentId = null;
 
 
 /* =========================================================
-   PHOTO PREVIEW
+   LOADING
 ========================================================= */
 
-let selectedPhoto = null;
+function showLoading(){
 
-photoInput.addEventListener("change", function(){
+  loading.classList.add("show");
 
-  const file = this.files[0];
+}
 
-  if(!file){
-    return;
-  }
+function hideLoading(){
 
-  if(!file.type.startsWith("image/")){
-    alert("กรุณาเลือกไฟล์รูปภาพ");
-    this.value = "";
-    return;
-  }
-
-  if(file.size > 5 * 1024 * 1024){
-    alert("รูปมีขนาดเกิน 5 MB");
-    this.value = "";
-    return;
-  }
-
-  selectedPhoto = file;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e){
-
-    photoPreview.src = e.target.result;
-    photoPreview.style.display = "block";
-
-    photoIcon.style.display = "none";
-
-    photoMain.textContent =
-      "เปลี่ยนรูปภาพ";
-
-  };
-
-  reader.readAsDataURL(file);
-
-});
-
-
-/* =========================================================
-   GET SALES CHANNELS
-========================================================= */
-
-function getSalesChannels(){
-
-  const ids = [
-    "saleFacebook",
-    "saleInstagram",
-    "saleTikTok",
-    "saleTwitter",
-    "saleLINE",
-    "saleOther"
-  ];
-
-  return ids
-    .map(id => document.getElementById(id))
-    .filter(input => input.checked)
-    .map(input => input.value);
+  loading.classList.remove("show");
 
 }
 
 
 /* =========================================================
-   SUBMIT
+   LOGIN
 ========================================================= */
 
-submitBtn.addEventListener("click", async function(){
-
-  const nickname =
-    nicknameInput.value.trim();
-
-  const line =
-    lineInput.value.trim();
-
-  const facebook =
-    facebookInput.value.trim();
-
-  const instagram =
-    instagramInput.value.trim();
-
-  const salesChannels =
-    getSalesChannels();
+loginBtn.addEventListener(
+  "click",
+  login
+);
 
 
-  /* ---------- VALIDATE ---------- */
+loginPassword.addEventListener(
+  "keydown",
+  function(e){
 
-  if(!nickname){
+    if(e.key === "Enter"){
+      login();
+    }
 
-    alert("กรุณากรอกชื่อเล่น");
+  }
+);
 
-    nicknameInput.focus();
+
+async function login(){
+
+  const email =
+    loginEmail.value.trim();
+
+  const password =
+    loginPassword.value;
+
+
+  loginError.style.display =
+    "none";
+
+
+  if(!email || !password){
+
+    showLoginError(
+      "กรุณากรอกอีเมลและรหัสผ่าน"
+    );
 
     return;
+
   }
 
 
-  if(!line && !facebook && !instagram){
+  loginBtn.disabled = true;
 
-    alert("กรุณากรอกช่องทางติดต่ออย่างน้อย 1 ช่องทาง");
-
-    lineInput.focus();
-
-    return;
-  }
-
-
-  if(salesChannels.length === 0){
-
-    alert("กรุณาเลือกช่องทางที่ใช้ขายสินค้าอย่างน้อย 1 ช่องทาง");
-
-    return;
-  }
-
-
-  if(!selectedPhoto){
-
-    alert("กรุณาเลือกรูปโปรไฟล์");
-
-    return;
-  }
-
-
-  /* ---------- START ---------- */
-
-  loading.classList.add("show");
-
-  submitBtn.disabled = true;
+  loginBtn.textContent =
+    "กำลังเข้าสู่ระบบ...";
 
 
   try{
-
-    /* =========================================
-       1. UPLOAD PHOTO
-    ========================================= */
-
-    const extension =
-      selectedPhoto.name
-        .split(".")
-        .pop()
-        .toLowerCase();
-
-    const fileName =
-      crypto.randomUUID() + "." + extension;
-
-    const filePath =
-      "agents/" + fileName;
-
-
-    const { error: uploadError } =
-      await supabaseClient
-        .storage
-        .from("agent-photos")
-        .upload(
-          filePath,
-          selectedPhoto,
-          {
-            cacheControl:"3600",
-            upsert:false,
-            contentType:selectedPhoto.type
-          }
-        );
-
-
-    if(uploadError){
-
-      console.error(uploadError);
-
-      throw new Error(
-        "ไม่สามารถอัปโหลดรูปได้"
-      );
-
-    }
-
-
-    /* =========================================
-       2. GET PUBLIC PHOTO URL
-    ========================================= */
-
-    const {
-      data: publicUrlData
-    } =
-      supabaseClient
-        .storage
-        .from("agent-photos")
-        .getPublicUrl(filePath);
-
-
-    const photoUrl =
-      publicUrlData.publicUrl;
-
-
-    /* =========================================
-       3. CONTACTS
-    ========================================= */
-
-    const contacts = {
-
-      LINE: line || "",
-
-      Facebook: facebook || "",
-
-      Instagram: instagram || ""
-
-    };
-
-
-    /* =========================================
-       4. REGISTER AGENT
-    ========================================= */
 
     const {
       data,
       error
     } =
-      await supabaseClient.rpc(
-        "register_agent",
-        {
-          p_nickname: nickname,
-          p_photo_url: photoUrl,
-          p_contacts: contacts,
-          p_sales_channels: salesChannels
-        }
-      );
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
 
 
     if(error){
+      throw error;
+    }
 
-      console.error(error);
+
+    if(!data.user){
 
       throw new Error(
-        error.message ||
-        "ไม่สามารถสมัครตัวแทนได้"
+        "ไม่พบข้อมูลผู้ใช้"
       );
 
     }
 
 
-    /* =========================================
-       5. GET RESULT
-    ========================================= */
+    /* ตรวจว่าเป็น Admin */
 
-    let agent = data;
+    const {
+      data: isAdmin,
+      error: adminError
+    } =
+      await supabaseClient.rpc(
+        "is_admin"
+      );
 
-    if(Array.isArray(data)){
-      agent = data[0];
+
+    if(adminError){
+      throw adminError;
     }
 
-    if(!agent){
+
+    if(!isAdmin){
+
+      await supabaseClient.auth.signOut();
 
       throw new Error(
-        "ระบบสมัครสำเร็จแต่ไม่พบข้อมูลตัวแทน"
+        "บัญชีนี้ไม่มีสิทธิ์เข้าใช้งาน Admin"
       );
 
     }
 
 
-    /* =========================================
-       6. SHOW SUCCESS
-    ========================================= */
+    showApp();
 
-    showSuccess(agent);
+    await loadAgents();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    showLoginError(
+      error.message ||
+      "เข้าสู่ระบบไม่สำเร็จ"
+    );
+
+  }
+  finally{
+
+    loginBtn.disabled = false;
+
+    loginBtn.textContent =
+      "เข้าสู่ระบบ";
+
+  }
+
+}
+
+
+function showLoginError(message){
+
+  loginError.textContent =
+    message;
+
+  loginError.style.display =
+    "block";
+
+}
+
+
+/* =========================================================
+   SHOW APP
+========================================================= */
+
+function showApp(){
+
+  loginPage.style.display =
+    "none";
+
+  app.classList.add("show");
+
+}
+
+
+/* =========================================================
+   CHECK CURRENT SESSION
+========================================================= */
+
+async function checkSession(){
+
+  try{
+
+    const {
+      data
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if(!data.session){
+      return;
+    }
+
+
+    const {
+      data: isAdmin,
+      error
+    } =
+      await supabaseClient.rpc(
+        "is_admin"
+      );
+
+
+    if(error || !isAdmin){
+
+      await supabaseClient.auth.signOut();
+
+      return;
+
+    }
+
+
+    showApp();
+
+    await loadAgents();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+checkSession();
+
+
+/* =========================================================
+   LOAD AGENTS
+========================================================= */
+
+async function loadAgents(){
+
+  showLoading();
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("agents")
+        .select("*")
+        .order(
+          "joined_date",
+          {
+            ascending:false
+          }
+        );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    allAgents =
+      data || [];
+
+
+    updateStats();
+
+    renderAgents();
 
   }
   catch(error){
@@ -1181,74 +1454,717 @@ submitBtn.addEventListener("click", async function(){
 
     alert(
       error.message ||
-      "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
+      "ไม่สามารถโหลดข้อมูลตัวแทนได้"
     );
 
   }
   finally{
 
-    loading.classList.remove("show");
-
-    submitBtn.disabled = false;
+    hideLoading();
 
   }
 
-});
+}
 
 
 /* =========================================================
-   SHOW SUCCESS
+   STATS
 ========================================================= */
 
-function showSuccess(agent){
+function updateStats(){
 
-  const code =
-    agent.agent_code || "";
+  const total =
+    allAgents.length;
 
-  const name =
-    agent.nickname || nicknameInput.value.trim();
+  const active =
+    allAgents.filter(
+      agent =>
+        agent.status === "active"
+    ).length;
 
-  const photo =
-    agent.photo_url || "";
-
-  const joined =
-    agent.joined_date ||
-    new Date().toISOString();
-
-  const status =
-    agent.status || "active";
-
-  const sales =
-    agent.sales_channels || [];
+  const inactive =
+    allAgents.filter(
+      agent =>
+        agent.status !== "active"
+    ).length;
 
 
-  agentPhoto.src = photo;
+  totalCount.textContent =
+    total;
 
-  agentName.textContent = name;
+  activeCount.textContent =
+    active;
 
-  agentCode.textContent = code;
-
-  agentDate.textContent =
-    formatThaiDate(joined);
-
-  agentStatus.textContent =
-    status === "active"
-      ? "Active"
-      : "Inactive";
-
-  agentSales.textContent =
-    Array.isArray(sales)
-      ? sales.map(formatSalesName).join(", ")
-      : "";
-
-
-  copyCodeBtn.dataset.code =
-    code;
-
-
-  successModal.classList.add("show");
+  inactiveCount.textContent =
+    inactive;
 
 }
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+searchInput.addEventListener(
+  "input",
+  renderAgents
+);
+
+
+function getFilteredAgents(){
+
+  const keyword =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+
+  if(!keyword){
+    return allAgents;
+  }
+
+
+  return allAgents.filter(
+    agent => {
+
+      const nickname =
+        String(
+          agent.nickname || ""
+        ).toLowerCase();
+
+      const code =
+        String(
+          agent.agent_code || ""
+        ).toLowerCase();
+
+
+      return (
+        nickname.includes(keyword) ||
+        code.includes(keyword)
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderAgents(){
+
+  const agents =
+    getFilteredAgents();
+
+
+  agentsContainer.innerHTML =
+    "";
+
+
+  resultCount.textContent =
+    `แสดง ${agents.length} จาก ${allAgents.length} รายการ`;
+
+
+  if(agents.length === 0){
+
+    empty.style.display =
+      "block";
+
+    return;
+
+  }
+
+
+  empty.style.display =
+    "none";
+
+
+  agents.forEach(
+    agent => {
+
+      agentsContainer.appendChild(
+        createAgentCard(agent)
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   CREATE CARD
+========================================================= */
+
+function createAgentCard(agent){
+
+  const card =
+    document.createElement("article");
+
+  card.className =
+    "agent";
+
+
+  const photo =
+    agent.photo_url ||
+    "https://via.placeholder.com/150";
+
+
+  const status =
+    agent.status === "active";
+
+
+  const contacts =
+    agent.contacts || {};
+
+
+  const sales =
+    Array.isArray(
+      agent.sales_channels
+    )
+      ? agent.sales_channels
+      : [];
+
+
+  const contactHTML = [
+
+    contacts.LINE
+      ? `<div class="contact-item">LINE: ${escapeHTML(contacts.LINE)}</div>`
+      : "",
+
+    contacts.Facebook
+      ? `<div class="contact-item">Facebook: ${escapeHTML(contacts.Facebook)}</div>`
+      : "",
+
+    contacts.Instagram
+      ? `<div class="contact-item">Instagram: ${escapeHTML(contacts.Instagram)}</div>`
+      : ""
+
+  ].join("");
+
+
+  const salesText =
+    sales
+      .map(formatSalesName)
+      .join(", ") || "-";
+
+
+  card.innerHTML = `
+
+    <div class="agent-top">
+
+      <img
+        class="agent-photo"
+        src="${escapeAttribute(photo)}"
+        alt="รูปตัวแทน"
+      >
+
+      <div class="agent-main">
+
+        <div class="agent-name">
+          ${escapeHTML(agent.nickname || "-")}
+        </div>
+
+        <div class="agent-code">
+          ${escapeHTML(agent.agent_code || "-")}
+        </div>
+
+        <div class="status ${status ? "active" : "inactive"}">
+          ${status ? "● Active" : "● Inactive"}
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="agent-info">
+
+      <div class="info-row">
+
+        <span class="info-label">
+          วันที่สมัคร
+        </span>
+
+        <span class="info-value">
+          ${formatThaiDate(agent.joined_date)}
+        </span>
+
+      </div>
+
+
+      <div class="info-row">
+
+        <span class="info-label">
+          ช่องทางขาย
+        </span>
+
+        <span class="info-value sales-list">
+          ${escapeHTML(salesText)}
+        </span>
+
+      </div>
+
+
+      <div class="contact-list">
+
+        ${
+          contactHTML ||
+          `<div class="contact-item">ไม่มีข้อมูลติดต่อ</div>`
+        }
+
+      </div>
+
+    </div>
+
+
+    <div class="agent-actions">
+
+      <button
+        class="action-btn edit-btn"
+        type="button"
+        data-action="edit"
+      >
+        ✏️ แก้ไข
+      </button>
+
+      <button
+        class="action-btn toggle-btn"
+        type="button"
+        data-action="toggle"
+      >
+        ${status ? "ปิดใช้งาน" : "เปิดใช้งาน"}
+      </button>
+
+      <button
+        class="action-btn delete-btn"
+        type="button"
+        data-action="delete"
+      >
+        🗑️ ลบตัวแทน
+      </button>
+
+    </div>
+
+  `;
+
+
+  card
+    .querySelector(
+      '[data-action="edit"]'
+    )
+    .addEventListener(
+      "click",
+      () => openEdit(agent)
+    );
+
+
+  card
+    .querySelector(
+      '[data-action="toggle"]'
+    )
+    .addEventListener(
+      "click",
+      () => toggleStatus(agent)
+    );
+
+
+  card
+    .querySelector(
+      '[data-action="delete"]'
+    )
+    .addEventListener(
+      "click",
+      () => deleteAgent(agent)
+    );
+
+
+  return card;
+
+}
+
+
+/* =========================================================
+   EDIT
+========================================================= */
+
+function openEdit(agent){
+
+  editingAgentId =
+    agent.id;
+
+
+  const contacts =
+    agent.contacts || {};
+
+
+  const sales =
+    Array.isArray(
+      agent.sales_channels
+    )
+      ? agent.sales_channels
+      : [];
+
+
+  editCode.value =
+    agent.agent_code || "";
+
+  editNickname.value =
+    agent.nickname || "";
+
+  editLine.value =
+    contacts.LINE || "";
+
+  editFacebook.value =
+    contacts.Facebook || "";
+
+  editInstagram.value =
+    contacts.Instagram || "";
+
+  editSales.value =
+    sales.join(", ");
+
+
+  editModal.classList.add("show");
+
+}
+
+
+/* =========================================================
+   SAVE EDIT
+========================================================= */
+
+saveEditBtn.addEventListener(
+  "click",
+  saveEdit
+);
+
+
+async function saveEdit(){
+
+  if(!editingAgentId){
+    return;
+  }
+
+
+  const nickname =
+    editNickname.value.trim();
+
+
+  if(!nickname){
+
+    alert(
+      "กรุณากรอกชื่อเล่น"
+    );
+
+    return;
+
+  }
+
+
+  const contacts = {
+
+    LINE:
+      editLine.value.trim(),
+
+    Facebook:
+      editFacebook.value.trim(),
+
+    Instagram:
+      editInstagram.value.trim()
+
+  };
+
+
+  const salesChannels =
+    editSales.value
+      .split(",")
+      .map(item => item.trim())
+      .filter(Boolean)
+      .map(normalizeSalesName);
+
+
+  showLoading();
+
+
+  try{
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("agents")
+        .update({
+
+          nickname,
+
+          contacts,
+
+          sales_channels:
+            salesChannels
+
+        })
+        .eq(
+          "id",
+          editingAgentId
+        );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    closeEdit();
+
+    await loadAgents();
+
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      error.message ||
+      "ไม่สามารถบันทึกข้อมูลได้"
+    );
+
+  }
+  finally{
+
+    hideLoading();
+
+  }
+
+}
+
+
+/* =========================================================
+   CLOSE EDIT
+========================================================= */
+
+cancelEditBtn.addEventListener(
+  "click",
+  closeEdit
+);
+
+
+function closeEdit(){
+
+  editingAgentId =
+    null;
+
+  editModal.classList.remove(
+    "show"
+  );
+
+}
+
+
+/* =========================================================
+   TOGGLE STATUS
+========================================================= */
+
+async function toggleStatus(agent){
+
+  const nextStatus =
+    agent.status === "active"
+      ? "inactive"
+      : "active";
+
+
+  const text =
+    nextStatus === "active"
+      ? "เปิดใช้งาน"
+      : "ปิดใช้งาน";
+
+
+  const confirmed =
+    confirm(
+      `ต้องการ${text} ${agent.nickname} (${agent.agent_code}) หรือไม่?`
+    );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  showLoading();
+
+
+  try{
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("agents")
+        .update({
+
+          status:
+            nextStatus
+
+        })
+        .eq(
+          "id",
+          agent.id
+        );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    await loadAgents();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      error.message ||
+      "ไม่สามารถเปลี่ยนสถานะได้"
+    );
+
+  }
+  finally{
+
+    hideLoading();
+
+  }
+
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+async function deleteAgent(agent){
+
+  const confirmed =
+    confirm(
+      `ต้องการลบตัวแทน "${agent.nickname}" (${agent.agent_code}) ใช่หรือไม่?\n\nข้อมูลนี้จะถูกลบออกจากระบบ`
+    );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  const confirmedAgain =
+    confirm(
+      "ยืนยันอีกครั้ง: ต้องการลบข้อมูลตัวแทนนี้จริง ๆ ใช่หรือไม่?"
+    );
+
+
+  if(!confirmedAgain){
+    return;
+  }
+
+
+  showLoading();
+
+
+  try{
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("agents")
+        .delete()
+        .eq(
+          "id",
+          agent.id
+        );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    await loadAgents();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      error.message ||
+      "ไม่สามารถลบตัวแทนได้"
+    );
+
+  }
+  finally{
+
+    hideLoading();
+
+  }
+
+}
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+refreshBtn.addEventListener(
+  "click",
+  loadAgents
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+logoutBtn.addEventListener(
+  "click",
+  async function(){
+
+    await supabaseClient.auth.signOut();
+
+    app.classList.remove(
+      "show"
+    );
+
+    app.style.display =
+      "none";
+
+    loginPage.style.display =
+      "flex";
+
+    loginPassword.value =
+      "";
+
+  }
+);
+
+
+/* =========================================================
+   MODAL OUTSIDE CLICK
+========================================================= */
+
+editModal.addEventListener(
+  "click",
+  function(e){
+
+    if(e.target === editModal){
+      closeEdit();
+    }
+
+  }
+);
 
 
 /* =========================================================
@@ -1257,8 +2173,19 @@ function showSuccess(agent){
 
 function formatThaiDate(dateString){
 
+  if(!dateString){
+    return "-";
+  }
+
+
   const date =
     new Date(dateString);
+
+
+  if(Number.isNaN(date.getTime())){
+    return "-";
+  }
+
 
   return date.toLocaleDateString(
     "th-TH",
@@ -1287,78 +2214,42 @@ function formatSalesName(name){
 }
 
 
-/* =========================================================
-   COPY CODE
-========================================================= */
+function normalizeSalesName(name){
 
-copyCodeBtn.addEventListener(
-  "click",
-  async function(){
-
-    const code =
-      this.dataset.code || "";
-
-    if(!code){
-      return;
-    }
-
-    try{
-
-      await navigator.clipboard.writeText(code);
-
-      this.textContent =
-        "✓ คัดลอกแล้ว";
-
-      setTimeout(() => {
-
-        this.textContent =
-          "📋 คัดลอกรหัสตัวแทน";
-
-      },1500);
-
-    }
-    catch(error){
-
-      alert(
-        "รหัสตัวแทน: " + code
-      );
-
-    }
-
+  if(
+    name === "𝕏 ทวิต" ||
+    name === "X" ||
+    name === "Twitter"
+  ){
+    return "Twitter";
   }
-);
+
+  return name;
+
+}
 
 
 /* =========================================================
-   CLOSE MODAL
+   ESCAPE
 ========================================================= */
 
-closeModalBtn.addEventListener(
-  "click",
-  function(){
+function escapeHTML(value){
 
-    successModal.classList.remove("show");
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
-  }
-);
+}
 
 
-/* =========================================================
-   CLICK OUTSIDE MODAL
-========================================================= */
+function escapeAttribute(value){
 
-successModal.addEventListener(
-  "click",
-  function(e){
+  return escapeHTML(value);
 
-    if(e.target === successModal){
-
-      successModal.classList.remove("show");
-
-    }
-
-  }
-);
+}
 
 </script>
 
