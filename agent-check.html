@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ตรวจสอบตัวแทน | Bennie Choco</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai",sans-serif;
+  background:#fff5f8;
+  color:#684f5a;
+}
+
+.container{
+  width:100%;
+  max-width:520px;
+  margin:0 auto;
+  padding:28px 18px 50px;
+}
+
+.header{
+  text-align:center;
+  margin-bottom:24px;
+}
+
+.logo{
+  display:inline-block;
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:.5px;
+  color:#fff;
+  background:linear-gradient(135deg,#df91ad,#c87594);
+  padding:12px 25px;
+  border-radius:22px;
+  box-shadow:0 8px 25px rgba(200,117,148,.22);
+  text-shadow:0 1px 2px rgba(100,50,70,.2);
+}
+
+.header h1{
+  margin:20px 0 7px;
+  font-size:24px;
+  color:#684f5a;
+}
+
+.header p{
+  margin:0;
+  color:#a98594;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #f3dce5;
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 12px 35px rgba(190,120,145,.12);
+}
+
+label{
+  display:block;
+  margin-bottom:8px;
+  font-size:14px;
+  font-weight:700;
+  color:#765c67;
+}
+
+input{
+  width:100%;
+  height:50px;
+  padding:0 15px;
+  border:1px solid #ead4dd;
+  border-radius:14px;
+  outline:none;
+  background:#fffafb;
+  color:#684f5a;
+  font-size:16px;
+  transition:.2s;
+}
+
+input:focus{
+  border-color:#d58aa5;
+  box-shadow:0 0 0 3px rgba(213,138,165,.12);
+}
+
+.field{
+  margin-bottom:17px;
+}
+
+button{
+  width:100%;
+  border:0;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:700;
+  border-radius:15px;
+  transition:.2s;
+}
+
+.search-btn{
+  height:52px;
+  color:#fff;
+  background:linear-gradient(135deg,#df91ad,#c97594);
+  box-shadow:0 8px 20px rgba(201,117,148,.22);
+}
+
+.search-btn:active{
+  transform:scale(.98);
+}
+
+.search-btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.result{
+  margin-top:20px;
+  display:none;
+}
+
+.result.show{
+  display:block;
+}
+
+.agent-card{
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid #f0d7e1;
+  background:#fff;
+}
+
+.agent-top{
+  padding:24px 20px;
+  text-align:center;
+  background:linear-gradient(180deg,#fff1f6,#fff);
+}
+
+.photo{
+  width:110px;
+  height:110px;
+  margin:0 auto 15px;
+  border-radius:50%;
+  overflow:hidden;
+  border:5px solid #fff;
+  box-shadow:0 5px 20px rgba(150,90,115,.18);
+  background:#f9e5ed;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#c27b96;
+  font-size:35px;
+}
+
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.agent-name{
+  margin:0;
+  font-size:23px;
+  font-weight:800;
+  color:#684f5a;
+}
+
+.verified{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-top:8px;
+  padding:6px 11px;
+  border-radius:30px;
+  background:#eaf8ef;
+  color:#41855b;
+  font-size:12px;
+  font-weight:700;
+}
+
+.info{
+  padding:18px 20px 22px;
+}
+
+.info-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:12px 0;
+  border-bottom:1px solid #f4e6eb;
+}
+
+.info-row:last-child{
+  border-bottom:0;
+}
+
+.info-label{
+  color:#a98594;
+  font-size:13px;
+}
+
+.info-value{
+  text-align:right;
+  font-weight:700;
+  font-size:14px;
+  color:#684f5a;
+}
+
+.code{
+  display:inline-block;
+  padding:7px 11px;
+  border-radius:10px;
+  background:#ffe9f0;
+  color:#b65f7f;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+
+.channels{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:6px;
+}
+
+.channel{
+  padding:5px 9px;
+  border-radius:9px;
+  background:#fff1f5;
+  color:#9c6178;
+  font-size:12px;
+}
+
+.not-found{
+  display:none;
+  margin-top:18px;
+  padding:20px;
+  border-radius:18px;
+  text-align:center;
+  background:#fff;
+  border:1px solid #f1dce4;
+}
+
+.not-found.show{
+  display:block;
+}
+
+.not-found-icon{
+  font-size:35px;
+  margin-bottom:8px;
+}
+
+.not-found h3{
+  margin:0 0 6px;
+  color:#684f5a;
+}
+
+.not-found p{
+  margin:0;
+  color:#a98594;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.error{
+  display:none;
+  margin-top:18px;
+  padding:15px;
+  border-radius:14px;
+  background:#fff0f0;
+  color:#b85b5b;
+  font-size:13px;
+  text-align:center;
+}
+
+.error.show{
+  display:block;
+}
+
+.footer{
+  text-align:center;
+  margin-top:25px;
+  color:#b995a3;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.loading{
+  width:20px;
+  height:20px;
+  border:3px solid rgba(255,255,255,.45);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+  margin:auto;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
+
+@media(max-width:380px){
+  .container{
+    padding-left:13px;
+    padding-right:13px;
+  }
+
+  .card{
+    padding:18px;
+  }
+
+  .logo{
+    font-size:26px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="logo">Bennie Choco</div>
+
+    <h1>ตรวจสอบตัวแทน</h1>
+
+    <p>
+      ตรวจสอบว่าบุคคลนี้เป็นตัวแทนของ Bennie Choco หรือไม่
+    </p>
+  </div>
+
+  <div class="card">
+
+    <div class="field">
+      <label for="nickname">ชื่อเล่นตัวแทน</label>
+      <input
+        id="nickname"
+        type="text"
+        placeholder="กรอกชื่อเล่นตัวแทน"
+        autocomplete="off"
+      >
+    </div>
+
+    <div class="field">
+      <label for="agentCode">รหัสตัวแทน</label>
+      <input
+        id="agentCode"
+        type="text"
+        placeholder="เช่น BC-0001"
+        autocomplete="off"
+        autocapitalize="characters"
+      >
+    </div>
+
+    <button class="search-btn" id="searchBtn" onclick="checkAgent()">
+      ตรวจสอบตัวแทน
+    </button>
+
+  </div>
+
+  <div class="not-found" id="notFound">
+    <div class="not-found-icon">🔎</div>
+    <h3>ไม่พบข้อมูลตัวแทน</h3>
+    <p>
+      กรุณาตรวจสอบชื่อเล่นและรหัสตัวแทนอีกครั้ง
+      <br>
+      หรือสอบถามตัวแทนโดยตรง
+    </p>
+  </div>
+
+  <div class="error" id="errorBox"></div>
+
+  <div class="result" id="result">
+
+    <div class="agent-card">
+
+      <div class="agent-top">
+
+        <div class="photo" id="photoBox">
+          ♡
+        </div>
+
+        <h2 class="agent-name" id="resultName"></h2>
+
+        <div class="verified">
+          ✓ ตัวแทนที่ได้รับการยืนยัน
+        </div>
+
+      </div>
+
+      <div class="info">
+
+        <div class="info-row">
+          <div class="info-label">รหัสตัวแทน</div>
+          <div class="info-value">
+            <span class="code" id="resultCode"></span>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-label">วันที่เข้าร่วม</div>
+          <div class="info-value" id="resultDate"></div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-label">ช่องทางการขาย</div>
+          <div class="info-value channels" id="resultChannels"></div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-label">สถานะ</div>
+          <div class="info-value" id="resultStatus">
+            Active
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+    Bennie Choco<br>
+    ระบบตรวจสอบตัวแทนอย่างเป็นทางการ
+  </div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+  "https://jicsdzjcsxlrutdhurqd.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_IutojmB0Mm9JrpPoBNc2rg_y300UcFz";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+function cleanText(value){
+  return String(value || "").trim();
+}
+
+
+function escapeHtml(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function formatDate(value){
+
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return value;
+  }
+
+  return date.toLocaleDateString(
+    "th-TH",
+    {
+      day:"numeric",
+      month:"long",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+function normalizeCode(value){
+
+  return cleanText(value)
+    .toUpperCase()
+    .replace(/\s+/g,"");
+
+}
+
+
+function getSalesChannels(data){
+
+  if(!data) return [];
+
+  if(Array.isArray(data)){
+    return data;
+  }
+
+  if(typeof data === "object"){
+    return Object.entries(data)
+      .filter(([key,value]) => value)
+      .map(([key]) => key);
+  }
+
+  return [];
+}
+
+
+function channelName(value){
+
+  const map = {
+    facebook:"Facebook",
+    instagram:"Instagram",
+    line:"LINE",
+    tiktok:"TikTok",
+    twitter:"X",
+    x:"X",
+    shopee:"Shopee",
+    lazada:"Lazada",
+    other:"อื่น ๆ"
+  };
+
+  const key = String(value || "")
+    .toLowerCase()
+    .trim();
+
+  return map[key] || value;
+
+}
+
+
+function showError(message){
+
+  const box =
+    document.getElementById("errorBox");
+
+  box.textContent = message;
+  box.classList.add("show");
+
+}
+
+
+function hideError(){
+
+  document
+    .getElementById("errorBox")
+    .classList.remove("show");
+
+}
+
+
+function resetResult(){
+
+  document
+    .getElementById("result")
+    .classList.remove("show");
+
+  document
+    .getElementById("notFound")
+    .classList.remove("show");
+
+}
+
+
+function renderChannels(channels){
+
+  const box =
+    document.getElementById("resultChannels");
+
+  box.innerHTML = "";
+
+  if(!channels.length){
+
+    box.textContent = "-";
+    return;
+
+  }
+
+  channels.forEach(item => {
+
+    const span =
+      document.createElement("span");
+
+    span.className = "channel";
+    span.textContent = channelName(item);
+
+    box.appendChild(span);
+
+  });
+
+}
+
+
+async function checkAgent(){
+
+  hideError();
+  resetResult();
+
+  const nickname =
+    cleanText(
+      document.getElementById("nickname").value
+    );
+
+  const agentCode =
+    normalizeCode(
+      document.getElementById("agentCode").value
+    );
+
+  if(!nickname){
+
+    showError("กรุณากรอกชื่อเล่นตัวแทน");
+    return;
+
+  }
+
+  if(!agentCode){
+
+    showError("กรุณากรอกรหัสตัวแทน");
+    return;
+
+  }
+
+  const button =
+    document.getElementById("searchBtn");
+
+  button.disabled = true;
+
+  button.innerHTML =
+    '<div class="loading"></div>';
+
+  try{
+
+    const { data, error } =
+      await supabaseClient.rpc(
+        "check_agent",
+        {
+          p_nickname: nickname,
+          p_agent_code: agentCode
+        }
+      );
+
+    if(error){
+
+      console.error(error);
+
+      showError(
+        "เกิดข้อผิดพลาดในการตรวจสอบ กรุณาลองใหม่อีกครั้ง"
+      );
+
+      return;
+
+    }
+
+    /*
+      รองรับทั้งกรณี RPC คืน object
+      และกรณีคืน array ที่มีข้อมูล 1 รายการ
+    */
+
+    let agent = data;
+
+    if(Array.isArray(data)){
+      agent = data.length ? data[0] : null;
+    }
+
+    if(!agent){
+
+      document
+        .getElementById("notFound")
+        .classList.add("show");
+
+      return;
+
+    }
+
+    renderAgent(agent);
+
+  }catch(err){
+
+    console.error(err);
+
+    showError(
+      "ไม่สามารถเชื่อมต่อระบบตรวจสอบได้"
+    );
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent =
+      "ตรวจสอบตัวแทน";
+
+  }
+
+}
+
+
+function renderAgent(agent){
+
+  document
+    .getElementById("result")
+    .classList.add("show");
+
+  document
+    .getElementById("resultName")
+    .textContent =
+      agent.nickname || "-";
+
+  document
+    .getElementById("resultCode")
+    .textContent =
+      agent.agent_code || "-";
+
+  document
+    .getElementById("resultDate")
+    .textContent =
+      formatDate(agent.joined_date);
+
+  document
+    .getElementById("resultStatus")
+    .textContent =
+      String(agent.status || "active")
+        .toLowerCase() === "active"
+        ? "กำลังใช้งาน"
+        : "ไม่ได้ใช้งาน";
+
+  renderChannels(
+    getSalesChannels(agent.sales_channels)
+  );
+
+  const photoBox =
+    document.getElementById("photoBox");
+
+  photoBox.innerHTML = "";
+
+  if(agent.photo_url){
+
+    const img =
+      document.createElement("img");
+
+    img.src = agent.photo_url;
+    img.alt = "รูปตัวแทน";
+
+    img.onerror = function(){
+
+      photoBox.textContent = "♡";
+
+    };
+
+    photoBox.appendChild(img);
+
+  }else{
+
+    photoBox.textContent = "♡";
+
+  }
+
+}
+
+
+document
+  .getElementById("agentCode")
+  .addEventListener("input", function(){
+
+    this.value =
+      this.value
+        .toUpperCase()
+        .replace(/\s+/g,"");
+
+  });
+
+
+document
+  .getElementById("nickname")
+  .addEventListener("keydown", function(event){
+
+    if(event.key === "Enter"){
+      checkAgent();
+    }
+
+  });
+
+
+document
+  .getElementById("agentCode")
+  .addEventListener("keydown", function(event){
+
+    if(event.key === "Enter"){
+      checkAgent();
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
